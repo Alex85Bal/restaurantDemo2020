@@ -18,7 +18,6 @@ public class test01 {
 		System.out.println(dbLink.getReleaseToDB().get(1).asText());
 		System.out.println(dbLink.getReleaseToDB().get(2).asText());
 	
-		System.out.println("CHECKING HELLO!!!");
-		System.out.println("please work!!");
+		System.out.println("SUP");
 	}
 }
