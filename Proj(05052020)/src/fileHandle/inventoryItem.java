@@ -11,17 +11,17 @@ public class inventoryItem extends dataBaseItem {
 	
 	public inventoryItem(String buildFromString) {
 		super();
-		super.setItemName("inventory");
+		super.setDBtype("inventory");
 		String[] tokens = buildFromString.split("#", 5);	
 		super.setID(Integer.parseInt(tokens[1]));
-		super.setName(tokens[2]);
+		super.setItemName(tokens[2]);
 		super.setInBrench(Integer.parseInt(tokens[3]));
 		this.amount = Integer.valueOf(tokens[4]);
 	}
 	
 	public inventoryItem(int item_ID, String item_name, int branchID, int amount) {
 		super(item_ID, item_name, branchID);
-		super.setItemName("inventory");
+		super.setDBtype("inventory");
 		this.amount = amount;
 	}
 	
@@ -40,6 +40,11 @@ public class inventoryItem extends dataBaseItem {
 	
 	@Override
 	public String asText () {
-		return super.asText()+"#"+String.valueOf(amount);
+		String temp = super.getDBtype();
+		temp += "#"+super.getID();
+		temp += "#"+super.getItemName();
+		temp += "#"+super.getInBrench();
+		temp += "#"+String.valueOf(amount);
+		return temp;
 	}
 }

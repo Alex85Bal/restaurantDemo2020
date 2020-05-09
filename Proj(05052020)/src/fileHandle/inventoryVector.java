@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class inventoryVector extends dataBaseItemVector {
 
+	@Override
 	public boolean getWholeVectorFromFile (String path, String fileName) {
 		try {
 			
@@ -25,6 +26,5 @@ public class inventoryVector extends dataBaseItemVector {
 			return false;
 		}
 	}
-	
 	
 }

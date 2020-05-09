@@ -1,15 +1,15 @@
 package fileHandle;
 
-public class dataBaseItem {
+public abstract class dataBaseItem {
 
-	private String itemName = "base";
+	private String DBtype = "base";
 	private int ID = -1;
-	private String name = "nope"; 
+	private String itemName = "nope"; 
 	private int inBrench = -1;
 	
 	public dataBaseItem(int item_ID, String item_name, int branchID) {
 		this.ID = item_ID;
-		this.name = item_name;
+		this.itemName = item_name;
 		this.inBrench = branchID;
 	}
 	
@@ -24,11 +24,11 @@ public class dataBaseItem {
 		ID = iD;
 	}
 	
-	public String getName() {
-		return name;
+	public String getDBtype() {
+		return DBtype;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setDBtype(String DBtype) {
+		this.DBtype = DBtype;
 	}
 	public int getInBrench() {
 		return inBrench;
@@ -36,9 +36,7 @@ public class dataBaseItem {
 	public void setInBrench(int inBrench) {
 		this.inBrench = inBrench;
 	}
-	public String asText () {
-		return String.valueOf(itemName+"#"+ID+"#"+name+"#"+inBrench);
-	}
+	public abstract String asText ();
 
 	public String getItemName() {
 		return itemName;
@@ -46,6 +44,10 @@ public class dataBaseItem {
 
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
+	}
+	
+	public boolean setVectorToFile(String path, String fileName, boolean keepOldData) {
+		return false;
 	}
 
 }

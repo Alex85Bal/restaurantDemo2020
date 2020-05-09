@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.Vector;
 
-public class dataBaseItemVector {
+abstract class dataBaseItemVector {
 	
 	private Vector<dataBaseItem> releaseToDB = new Vector<dataBaseItem>();
 	protected Exception insufficient_Access_To_FIle = new Exception();
@@ -92,4 +92,6 @@ public class dataBaseItemVector {
 	protected void setOut(FileWriter out) {
 		this.out = out;
 	}
+	
+	public abstract boolean getWholeVectorFromFile (String path, String fileName);
 }
