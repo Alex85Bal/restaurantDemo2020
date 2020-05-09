@@ -26,5 +26,4 @@ public class inventoryVector extends dataBaseItemVector {
 			return false;
 		}
 	}
-	
 }

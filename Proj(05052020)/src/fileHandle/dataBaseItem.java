@@ -27,27 +27,26 @@ public abstract class dataBaseItem {
 	public String getDBtype() {
 		return DBtype;
 	}
+	
 	public void setDBtype(String DBtype) {
 		this.DBtype = DBtype;
 	}
+	
 	public int getInBrench() {
 		return inBrench;
 	}
+	
 	public void setInBrench(int inBrench) {
 		this.inBrench = inBrench;
 	}
-	public abstract String asText ();
-
+	
 	public String getItemName() {
 		return itemName;
 	}
-
+	
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
 	
-	public boolean setVectorToFile(String path, String fileName, boolean keepOldData) {
-		return false;
-	}
-
+	public abstract String asText ();
 }
