@@ -70,8 +70,7 @@ public class FormPanel extends JPanel {
 		gc.weighty = 1;
 		gc.gridx = 1;
 		gc.gridy = 2; // we went down
-		gc.anchor = GridBagConstraints.FIRST_LINE_START; // ancgor to the first line !
+		gc.anchor = GridBagConstraints.FIRST_LINE_START; // Anchor to the first line !
 		add(okButton, gc);
 	}
-
 }

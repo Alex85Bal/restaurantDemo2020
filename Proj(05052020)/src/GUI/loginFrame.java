@@ -1,30 +1,37 @@
 package GUI;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
 import javax.swing.SpringLayout;
 
 public class loginFrame extends JFrame {
 	
-	private userDataInputPanel UID_panel;
+	private userDataInputPanel UDIP_panel;
+	private StringListener event;
 	
 	public loginFrame () {
 		
 		super("Please Log In");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(600, 600);
+		setSize(250, 250);
+		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
 		
-		UID_panel = new userDataInputPanel();
+		UDIP_panel = new userDataInputPanel();
+		UDIP_panel.userEvent(new StringListener() {
+			
+			@Override
+			public void textEmitted(String text) {
+				System.out.println(text);
+				
+			}
+		});
 		
-		add(UID_panel, BorderLayout.PAGE_START);
+		add(UDIP_panel);
 		
 		setVisible(true);
-		
-		
-		
-		
+				
 	}
-
 }

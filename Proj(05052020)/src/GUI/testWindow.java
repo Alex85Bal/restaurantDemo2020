@@ -14,8 +14,8 @@ public class testWindow {
 
 	public testWindow () {
 	
-		//loginFrame login = new loginFrame();
-		MainFrame test = new MainFrame();
+		loginFrame login = new loginFrame();
+		//MainFrame test = new MainFrame();
 	}
 	
 	public static void main(String[] args) {
