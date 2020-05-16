@@ -8,13 +8,14 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.TextListener;
+import java.util.EventListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class userDataInputPanel extends JPanel implements ActionListener {
+public class userDataInputPanel extends JPanel {
 	
 	private JLabel IDLabel;
 	private JLabel passwordLabel;
@@ -22,8 +23,7 @@ public class userDataInputPanel extends JPanel implements ActionListener {
 	private JTextField passwordInput;
 	private JButton okButton;
 	private GridBagConstraints gc;
-	private StringListener event;
-	private StringListener PAS;
+	private loginListener sharedLoginListner ;
 	
 	public userDataInputPanel() {
 		
@@ -38,12 +38,32 @@ public class userDataInputPanel extends JPanel implements ActionListener {
 		passwordLabel = new JLabel("Password: ");
 		IDInput = new JTextField(10);
 		passwordInput = new JTextField(10);
-		okButton = new JButton("okBoomer");
+		okButton = new JButton("Submit");
 		
-		IDInput.addActionListener(this);
-		passwordInput.addActionListener(this);
-		okButton.addActionListener(this);
-		
+		// Motivation:
+		// we need main-frame to know when OK button is pressed and provide ID and Password to main-frame
+		// Explanation:
+		// we need an object from main-frame that can catch action upon a button => EventListner object => "loginListner" 
+		// we need an object to contain the info i need: ID and Password => EventObject => "loginEvent"
+		// we create a custom "loginListner" object, it can be constructed with "loginEvent"
+		// Actions :
+		// we add to our "OK" button anonymous ActionListener
+		// upon some action on the "OK" button our ActionListener will create a custom event: "loginEvent"
+		// here "loginEvent" object named "okPressed"
+		// if our mainFrame, gave us a "loginListner" object
+		// we will add caught event, named okPressed to given listener, that main-frame holds.
+		// Result:
+		// if OK button is pressed main will have "loginListner" object with ID and Password inside an loginEvent object
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) { 
+				// i don't care about "e" as i know only 1 action can happen to okButton
+				
+				loginEvent okPressed = new loginEvent(this, IDInput.getText(), passwordInput.getText());
+				if (sharedLoginListner != null)
+					sharedLoginListner.userEvent(okPressed);	
+			}
+		});
+					
 		gc.fill = GridBagConstraints.NONE;
 		
 		/* first label, most left *****************************************************************/
@@ -68,25 +88,16 @@ public class userDataInputPanel extends JPanel implements ActionListener {
 		gc.anchor = GridBagConstraints.LINE_START; // stick as much as possible to the left side
 		add(passwordInput, gc);
 		
-		/* ok button, under second input field ****************************************************/
+		/* OK button, under second input field ****************************************************/
 		gc.gridx = 1;		gc.gridy = 2; // (1,2)
 		gc.weightx = 1;		gc.weighty = 2;
 		gc.anchor = GridBagConstraints.FIRST_LINE_START; // stick as much as possible to the left side
 		add(okButton, gc);
 	}
 	
-	public void userEvent (StringListener sl) {
-		this.event = sl;
+	// this gets from main-frame a listener object that we will use to catch an event
+	// main-frame has that object
+	public void setListner (loginListener LL) {
+		this.sharedLoginListner = LL;
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource().equals(okButton))
-		{
-			event.textEmitted(IDInput.getText());
-			event.textEmitted(passwordInput.getText());
-		}
-	}
-	
-
 }
