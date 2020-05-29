@@ -1,15 +1,24 @@
 package fileHandle;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.NotSerializableException;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 abstract class dataBaseItemVector {
-	
-	private Vector<dataBaseItem> releaseToDB = new Vector<dataBaseItem>();
+
+	protected Vector<dataBaseItem> releaseToDB = new Vector<dataBaseItem>();
 	protected Exception insufficient_Access_To_FIle = new Exception();
 	private File source = null;
-	private FileWriter out = null;
+	protected FileWriter out = null;
+	protected BufferedWriter bro = null;
+	protected ObjectOutputStream objectOutputStream = null;
 	
 	public boolean addItem (dataBaseItem addThis) {
 		try {
@@ -18,21 +27,51 @@ abstract class dataBaseItemVector {
 			return false;
 		}
 	}
+	
+	public int getVectorSize() {
+		return this.releaseToDB.size();
+	}
+	
+	public void showCase() {
+		System.out.println("DBName,ID,itemName,Branch");
+	}
 		
-	public boolean setVectorToFile(String path, String fileName, boolean keepOldData) {
+	public void writeToFile(String path, String fileName, boolean keepOldData) {
 		try {
-			
+			objectOutputStream =
+			            new ObjectOutputStream(new FileOutputStream(fileName));
+
+				for (dataBaseItem dataBaseItem : releaseToDB) {
+					 try {
+						 objectOutputStream.writeObject(dataBaseItem);
+	                    } catch (NotSerializableException e) {
+	                        e.printStackTrace();
+	                    }
+				}
+				objectOutputStream.close();
+				
+		}  catch (IOException e1) {
+		e1.printStackTrace();
+		try {
+			objectOutputStream.close();
+		} catch (IOException e2) {
+			e1.printStackTrace();
+		}
+	}
+		/*
+		try {
 			String fullPath = path+"\\"+fileName;
 			if (getFile(fullPath) == null) throw insufficient_Access_To_FIle;
-			out = new FileWriter(fullPath, keepOldData);
+			out = new FileWriter(this.getSource(), keepOldData);
+			bro = new BufferedWriter(out);
 	
 			for (dataBaseItem dataBaseItem : releaseToDB) {
-				out.append(dataBaseItem.asText());
-				out.append("\n");
+				bro.write((dataBaseItem.asText()));
+				bro.newLine();
+				bro.flush();
 			}
 			
-			out.flush();
-			out.close();
+			bro.close();
 			releaseToDB.clear();
 			return true;
 			
@@ -40,6 +79,8 @@ abstract class dataBaseItemVector {
 			System.out.println(e.toString());
 			return false;
 		}
+		*/
+	
 	}
 		
 	protected Vector<dataBaseItem> getReleaseToDB() {
@@ -93,5 +134,6 @@ abstract class dataBaseItemVector {
 		this.out = out;
 	}
 	
-	public abstract boolean getWholeVectorFromFile (String path, String fileName);
+	public abstract boolean readFromFile (String path, String fileName);
+	
 }
