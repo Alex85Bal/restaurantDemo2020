@@ -1,5 +1,6 @@
 package fileHandle;
 
+import java.io.Serializable;
 import java.util.Vector;
 
 public class inventoryItem extends dataBaseItem {

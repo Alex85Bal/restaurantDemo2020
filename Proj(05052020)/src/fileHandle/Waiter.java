@@ -1,9 +1,11 @@
 package fileHandle;
 
+import java.io.Serializable;
 import java.util.Vector;
 
 public class Waiter extends Order {
 	
+	private static final long serialVersionUID = 5L;
 	private Vector<Order> readyOrderList;
 	KitchenOrders dbOpenOrdersLink = new KitchenOrders();
 	WaiterOrders dbReadyOrdersLink = new WaiterOrders();
@@ -46,6 +48,7 @@ public Waiter(Order g) {
 public void sendOrderToKitchen() {
 	
 }
+
 public void changeDishReady(int orderID, dishItem readyDish) {
 	dishItem temp;
 	for(int i=0;i< this.readyOrderList.size();i++) {
@@ -54,7 +57,7 @@ public void changeDishReady(int orderID, dishItem readyDish) {
     	  temp.setDishReadyStatus(true);
     	  this.readyOrderList.get(i).getDishList().remove(temp);
     	  dbOpenOrdersLink.addItem(this.regress());
-    	  dbOpenOrdersLink.writeToFile("C:\\projects", "openOrders@1.txt", false);
+    	 // dbOpenOrdersLink.writeToFile("C:\\projects", "openOrders@1.txt", false);
       }
 	}
 }

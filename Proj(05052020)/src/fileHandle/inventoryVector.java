@@ -1,14 +1,30 @@
 package fileHandle;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.Scanner;
-import java.util.Vector;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 public class inventoryVector extends dataBaseItemVector {
 
 	@Override
-	public boolean readFromFile (String path, String fileName) {
+	public boolean readFromFile (String path, String fileName) throws Exception, IOException {
+		ObjectInputStream ois = null;
+	    FileInputStream fis = null;
+	    super.getReleaseToDB().clear();
+	    String fullPath = path+"\\"+fileName;
+		 if (getFile(fullPath) == null) throw insufficient_Access_To_FIle;
+	    try {
+	        fis = new FileInputStream(fullPath);
+	        while (true) {
+	            ois = new ObjectInputStream(fis);
+	            super.getReleaseToDB().add((((dataBaseItem)ois.readObject())));
+	        }
+	    } catch (EOFException ignored) {
+	        // as expected
+	    } finally {
+	        if (fis != null)   { fis.close(); } }
+		/*
 		try {
 			
 			String fullPath = path+"\\"+fileName;
@@ -28,6 +44,8 @@ public class inventoryVector extends dataBaseItemVector {
 			System.out.println(e.toString());
 			return false;
 		}
+		*/
+		return false;
 	}	
 	
 	@Override

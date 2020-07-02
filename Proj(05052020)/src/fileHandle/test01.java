@@ -1,10 +1,11 @@
 package fileHandle;
 
+import java.io.IOException;
 import java.util.Vector;
 
 public class test01 {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 
 		inventoryVector dbInventoryLink = new inventoryVector();
 		dishVector dbDishLink = new dishVector();
@@ -32,6 +33,7 @@ public class test01 {
 		dbInventoryLink.addItem(new inventoryItem("Inventory", 3, "Watermelon", 1, 600, 1, "nonTradble"));
 		dbInventoryLink.addItem(new inventoryItem("Inventory", 4, "CokeZero", 1, 999, 40, "Tradble"));
 		dbDishLink.addItem(GG.regress());
+		dbDishLink.addItem(LL.regress());
 		dbOpenOrdersLink.addItem(BG.regress());
 		
 
@@ -45,14 +47,13 @@ public class test01 {
 		dbOpenOrdersLink.readFromFile("C:\\projects", "openOrders@1.txt");
 		
 
-		//dbInventoryLink.showCase();
 		for (int i = 0; i < dbInventoryLink.getVectorSize(); i++)
 			System.out.println(dbInventoryLink.getReleaseToDB().get(i).asText());
 
 		for (int i = 0; i < dbDishLink.getVectorSize(); i++)
 		System.out.println(dbDishLink.getReleaseToDB().get(i).asText());
 		
-
+//
 		for (int i = 0; i < dbOpenOrdersLink.getVectorSize(); i++)
 		System.out.println(dbOpenOrdersLink.getReleaseToDB().get(i).asText());
 

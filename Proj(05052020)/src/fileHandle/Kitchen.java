@@ -1,9 +1,11 @@
 package fileHandle;
 
+import java.io.Serializable;
 import java.util.Vector;
 
 public class Kitchen extends Order {
 	
+	private static final long serialVersionUID = 6L;
 	private Vector<Order> orderList = new Vector<Order>();
 	KitchenOrders dbOpenOrdersLink = new KitchenOrders();
 	WaiterOrders dbReadyOrdersLink = new WaiterOrders();

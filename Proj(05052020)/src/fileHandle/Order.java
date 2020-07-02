@@ -1,8 +1,9 @@
 package fileHandle;
 
+import java.io.Serializable;
 import java.util.Vector;
 
-public class Order extends dataBaseItem {
+public class Order extends dataBaseItem implements Serializable {
 			
 	private static final long serialVersionUID = 4L;
 	protected Vector<dishItem> dishList;

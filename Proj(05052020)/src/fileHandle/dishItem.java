@@ -1,5 +1,6 @@
 package fileHandle;
 
+import java.io.Serializable;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Vector;
