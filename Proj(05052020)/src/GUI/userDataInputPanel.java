@@ -7,6 +7,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.TextListener;
 import java.util.EventListener;
 
@@ -27,12 +29,8 @@ public class userDataInputPanel extends JPanel {
 	
 	public userDataInputPanel() {
 		
-		Dimension dim = getPreferredSize();
-		dim.width = 200;
-		dim.height = 200;
-		setPreferredSize(dim);
-		
 		setLayout(new GridBagLayout());
+		this.setPreferredSize(new Dimension(250,200));
 		gc = new GridBagConstraints();
 		IDLabel = new JLabel("Personal ID: ");
 		passwordLabel = new JLabel("Password: ");
@@ -64,6 +62,28 @@ public class userDataInputPanel extends JPanel {
 			}
 		});
 					
+		IDInput.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loginEvent okPressed = new loginEvent(this, IDInput.getText(), passwordInput.getText());
+				if (sharedLoginListner != null)
+					sharedLoginListner.userEvent(okPressed);
+				
+			}
+		});
+		
+		passwordInput.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loginEvent okPressed = new loginEvent(this, IDInput.getText(), passwordInput.getText());
+				if (sharedLoginListner != null)
+					sharedLoginListner.userEvent(okPressed);
+				
+			}
+		});
+		
 		gc.fill = GridBagConstraints.NONE;
 		
 		/* first label, most left *****************************************************************/
@@ -97,7 +117,7 @@ public class userDataInputPanel extends JPanel {
 	
 	// this gets from main-frame a listener object that we will use to catch an event
 	// main-frame has that object
-	public void setListner (loginListener LL) {
+	public void setListener (loginListener LL) {
 		this.sharedLoginListner = LL;
 	}
 }

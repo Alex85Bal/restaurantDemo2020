@@ -11,7 +11,6 @@ public class loginEvent extends EventObject {
 		super(source);
 	}
 	
-	
 	public loginEvent(Object source, String personalID, String password) {
 		super(source);
 		this.password = password;
