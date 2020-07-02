@@ -1,16 +1,22 @@
 package fileHandle;
 
-public abstract class dataBaseItem {
+import java.io.Serializable;
+import java.util.Vector;
 
-	private String DBtype = "base";
+public abstract class dataBaseItem implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	
+	private String DBName = "base";
 	private int ID = -1;
 	private String itemName = "nope"; 
-	private int inBrench = -1;
+	private int inBranch = -1;
 	
-	public dataBaseItem(int item_ID, String item_name, int branchID) {
+	public dataBaseItem(String DBname,int item_ID, String item_name, int branchID) {
+		this.DBName = DBname;
 		this.ID = item_ID;
 		this.itemName = item_name;
-		this.inBrench = branchID;
+		this.inBranch = branchID;
 	}
 	
 	public dataBaseItem() {
@@ -21,32 +27,42 @@ public abstract class dataBaseItem {
 	}
 	
 	public void setID(int iD) {
-		ID = iD;
+		this.ID = iD;
 	}
 	
-	public String getDBtype() {
-		return DBtype;
+	public String getDBname() {
+		return DBName;
 	}
 	
-	public void setDBtype(String DBtype) {
-		this.DBtype = DBtype;
+	public void setDBtype(String DBname) {
+		this.DBName = DBname;
 	}
 	
-	public int getInBrench() {
-		return inBrench;
+	public int getInBranch() {
+		return inBranch;
 	}
 	
-	public void setInBrench(int inBrench) {
-		this.inBrench = inBrench;
+	public void setInBranch(int inBranch) {
+		this.inBranch = inBranch;
 	}
+	
+	public String getDBName() {
+		return DBName;
+	}
+	
+	public void setDBName(String itemName) {
+		this.DBName = itemName;
+	}
+	
 	
 	public String getItemName() {
 		return itemName;
 	}
-	
+
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
-	
+
 	public abstract String asText ();
+	
 }
