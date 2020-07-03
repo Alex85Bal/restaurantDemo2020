@@ -11,6 +11,8 @@ public class test01 {
 		dishVector dbDishLink = new dishVector();
 		KitchenOrders dbOpenOrdersLink = new KitchenOrders();
 		WaiterOrders dbWaiterOrders = new WaiterOrders();
+		WorkersVector dbWorkers = new WorkersVector();
+		WorkersVector dbWorkersq = new WorkersVector();
 		Vector<inventoryItem> PP = new Vector<inventoryItem>();
 		Vector<inventoryItem> YY = new Vector<inventoryItem>();
 		Vector<inventoryItem> QQ = new Vector<inventoryItem>();
@@ -27,6 +29,8 @@ public class test01 {
 		GG.setIngredientsUsageInDish();
 		Order ZZ = new Order("Order",1,1,420,MM,QQ);
 		Kitchen BG = new Kitchen(ZZ);
+		int[] g = {1,2};
+		Workers w1 = new Workers("Worker",0, "Bob",1,g , "1234", "Temporary");
 
 		dbInventoryLink.addItem(new inventoryItem("Inventory", 1, "Potato", 1, 200, 20, "nonTradble"));
 		dbInventoryLink.addItem(new inventoryItem("Inventory", 2, "Chicken", 1, 40, 5, "nonTradble"));
@@ -35,8 +39,13 @@ public class test01 {
 		dbDishLink.addItem(GG.regress());
 		dbDishLink.addItem(LL.regress());
 		dbOpenOrdersLink.addItem(BG.regress());
+		dbWorkers.addItem(w1.regress());
 		
 
+		dbWorkers.writeToFile("C:\\projects", "Workers@1.txt", false);
+		dbWorkersq.readFromFile("C:\\projects", "Workers@1.txt");
+
+		
 		dbInventoryLink.writeToFile("C:\\projects", "inventory@1.txt", false);
 		dbInventoryLink.readFromFile("C:\\projects", "inventory@1.txt");
 
@@ -47,6 +56,9 @@ public class test01 {
 		dbOpenOrdersLink.readFromFile("C:\\projects", "openOrders@1.txt");
 		
 
+		for (int i = 0; i < dbWorkersq.getVectorSize(); i++)
+			System.out.println(dbWorkersq.getReleaseToDB().get(i).asText());
+		
 		for (int i = 0; i < dbInventoryLink.getVectorSize(); i++)
 			System.out.println(dbInventoryLink.getReleaseToDB().get(i).asText());
 
