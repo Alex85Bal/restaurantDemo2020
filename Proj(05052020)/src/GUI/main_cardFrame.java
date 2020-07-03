@@ -56,6 +56,22 @@ public class main_cardFrame extends Observable {
 		mainFrame.setVisible(true);	
 	}
 	
+	public boolean displayNoSuchUser (String UserName, String Password) {
+		
+		String display = "no such username and password\n";
+		display += "\n" + UserName + "\n" + Password;
+		JOptionPane.showMessageDialog(this.UDIP_panel, display, "can't login", JOptionPane.CLOSED_OPTION);
+		return true;
+	}
+	
+	public boolean displayErrorOnLogin () {
+		
+		String display = "{Personal ID} should be from the type of char\n";
+		display += "{Password} should be from the type of integer";
+		JOptionPane.showMessageDialog(this.UDIP_panel, display, "can't login", JOptionPane.CLOSED_OPTION);
+		return true;
+	}
+	
 	public user_obj getSearchThis() {
 		return searchThis;
 	}
