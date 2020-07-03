@@ -2,13 +2,13 @@ package GUI;
 
 public class user_obj {
 	
-	private static int globalID;
+	//private static int globalID;
 	private int system_id;
 	private int personal_id;
 	private String pass;
 	private int[] auth;
 	private int type;
-	private String userRequest;
+	//private String userRequest;
 	private int branch;
 	
 	public user_obj() {
@@ -18,7 +18,7 @@ public class user_obj {
 		try {
 			this.personal_id = Integer.valueOf(ID);
 			this.pass = Password;
-			this.userRequest = "loginRequest";
+			//this.userRequest = "loginRequest";
 		} catch (Exception e) {
 			this.personal_id = 0;
 			this.pass = "";
@@ -32,14 +32,14 @@ public class user_obj {
 			this.auth = auth.clone();
 			this.type = type;
 			this.branch = branch;
-			this.system_id = globalID++;
+			//this.system_id = globalID++;
 		} catch (Exception e) {
 			this.personal_id = 0;
 			this.pass = "";
 			this.auth = new int[0];
 			this.type = 0;
 			this.branch = 0;
-			this.system_id = globalID;
+			//this.system_id = globalID;
 		}
 	}
 	
@@ -83,6 +83,7 @@ public class user_obj {
 		this.type = type;
 	}
 
+	/*
 	public String getUserRequest() {
 		return userRequest;
 	}
@@ -90,6 +91,7 @@ public class user_obj {
 	public void setUserRequest(String userRequest) {
 		this.userRequest = userRequest;
 	}
+	*/
 
 	public int getBranch() {
 		return branch;

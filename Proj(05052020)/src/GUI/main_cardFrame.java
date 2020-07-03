@@ -35,7 +35,7 @@ public class main_cardFrame extends Observable {
 		mainFrame = new JFrame("my app");
 		cards = new JPanel();
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.setSize(200, 200);
+		mainFrame.setSize(400, 400);
 		mainFrame.setLocationRelativeTo(null);
 		
 		screens = new CardLayout();
