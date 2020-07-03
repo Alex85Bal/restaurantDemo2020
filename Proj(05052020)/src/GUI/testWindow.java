@@ -21,10 +21,6 @@ public class testWindow implements Observer {
 	public testWindow () {
 		
 		canBeServed = new Vector<readyDish_item>();
-		//canBeServed.add(new readyDish_item("55","007","שקשוקה חריפה","1","בגרסה מתאימה לאשכנזים"));
-		//canBeServed.add(new readyDish_item("56","007","עוגת גזר","1","ללא גלוטן"));
-		//canBeServed.add(new readyDish_item("55","007","פאד-טאי","2",""));
-		
 		run = new main_cardFrame();
 		run.addObserver(this);
 	}
@@ -44,7 +40,7 @@ public class testWindow implements Observer {
 		boolean GOB = false;
 
 		String str = "";
-		String[] dishes = {"שקשוקה חריפה","עוגת גזר","פאד-טאי"};
+		String[] dishes = {"dish 1","dish 2","dish 3"};
 		
 		if (arg.getClass() == UO.getClass() )
 		{
