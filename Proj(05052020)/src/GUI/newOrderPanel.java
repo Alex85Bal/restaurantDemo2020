@@ -82,7 +82,7 @@ public class newOrderPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (!(tableNumInput.getText().isBlank())) {
+				if ((tableNumInput.getText().compareTo("") != 0)) {
 					String temp = tableNumInput.getText();
 					if(temp.matches("[0-9]+")) {
 						

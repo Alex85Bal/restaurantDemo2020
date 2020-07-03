@@ -82,6 +82,7 @@ public class user_obj {
 	public void setType(int type) {
 		this.type = type;
 	}
+
 /*
 	public String getUserRequest() {
 		return userRequest;
@@ -91,6 +92,7 @@ public class user_obj {
 		this.userRequest = userRequest;
 	}
 */
+	
 	public int getBranch() {
 		return branch;
 	}

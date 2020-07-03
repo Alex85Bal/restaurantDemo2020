@@ -9,13 +9,13 @@ public abstract class dataBaseItem implements Serializable {
 	
 	private String DBName = "base";
 	private int ID = -1;
-	private String itemName = "nope"; 
+	private String Name = "nope"; 
 	private int inBranch = -1;
 	
 	public dataBaseItem(String DBname,int item_ID, String item_name, int branchID) {
 		this.DBName = DBname;
 		this.ID = item_ID;
-		this.itemName = item_name;
+		this.Name = item_name;
 		this.inBranch = branchID;
 	}
 	
@@ -56,11 +56,11 @@ public abstract class dataBaseItem implements Serializable {
 	
 	
 	public String getItemName() {
-		return itemName;
+		return Name;
 	}
 
 	public void setItemName(String itemName) {
-		this.itemName = itemName;
+		this.Name = itemName;
 	}
 
 	public abstract String asText ();
