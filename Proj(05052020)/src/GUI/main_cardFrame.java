@@ -99,6 +99,7 @@ public class main_cardFrame extends Observable {
 		});
 		cards.add(navigation_panel,"nav");
 		mainFrame.setSize(new Dimension(100,400));
+		mainFrame.setLocationRelativeTo(null);
 		screens.show(cards, "nav");
 	}
 	
@@ -129,6 +130,7 @@ public class main_cardFrame extends Observable {
 		});
 		cards.add(nOrder,"nOrder");
 		mainFrame.setSize(new Dimension(430,400));
+		mainFrame.setLocationRelativeTo(null);
 		screens.show(cards, "nOrder");
 	}
 	
@@ -149,6 +151,7 @@ public class main_cardFrame extends Observable {
 		});
 		cards.add(ready_orders,"readyOrd");
 		mainFrame.setSize(new Dimension(430,400));
+		mainFrame.setLocationRelativeTo(null);
 		screens.show(cards, "readyOrd");
 	}
 
