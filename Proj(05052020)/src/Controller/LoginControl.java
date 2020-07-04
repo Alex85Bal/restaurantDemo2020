@@ -5,16 +5,16 @@ import java.util.Observer;
 
 import GUI.main_cardFrame;
 import GUI.user_obj;
+import fileHandle.Workers;
 
 public class LoginControl implements Observer {
 	
-	private boolean canDisplayNav = false;
-	private String buttons[] = {"create order","ready orders","under construction"}; 
+	private boolean canDisplayNav = false; 
 	private String PID;
 	private String Pass;
 	private String UID;
 	private main_cardFrame login;
-	//private 
+	private NavigationControl nav;
 	
 	public LoginControl()
 	{
@@ -45,12 +45,14 @@ public class LoginControl implements Observer {
 				temp.setPass("111");
 				temp.setSystem_id(1);
 				temp.setType(0);
-				login.displayNavScreen(temp.getAuth(), temp.getAuth().length, buttons, buttons.length);
-			} 
+				System.out.println("switching to NavigationControl");
+				nav = new NavigationControl(login, temp.getAuth());
+			}
 			else {// Module says no
-				System.out.println("inLoginControl , module response is negative");
-				if(temp.getPass() != "")
+				System.out.println("in LoginControl , module response is negative");
+				if(temp.getPass() != "") {
 					login.displayNoSuchUser(String.valueOf(temp.getPersonal_id()),temp.getPass());
+				}
 				else
 					login.displayErrorOnLogin();
 			}
