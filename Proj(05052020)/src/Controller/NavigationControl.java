@@ -8,21 +8,21 @@ import GUI.user_obj;
 
 public class NavigationControl implements Observer{
 	
-	private user_obj current;
+	private int[] Permissions;
 	private main_cardFrame navigation;
 	private NewOrderControl nOrders;
 	private OrderServedControl rOrders;
 	private String Buttons[] = {"create order","ready orders","under construction"};
 	
-	public NavigationControl(main_cardFrame running ,int[] Permissions) {
+	public NavigationControl(int[] Permissions) {
 		
-		if(running != null)
-			navigation = running;
-		else
-			throw new RuntimeException();
-		navigation.addObserver(this);
-		navigation.displayNavScreen(Permissions, Permissions.length, Buttons, Buttons.length);
-		System.out.println("in NavigationControl , launching navigation screen");
+		navigation = new main_cardFrame();
+		if(navigation != null) {
+			navigation.addObserver(this);
+			this.Permissions = Permissions;
+			System.out.println("in NavigationControl , launching navigation screen");
+			navigation.displayNavScreen(Permissions, Permissions.length, Buttons, Buttons.length);
+		}
 	}
 
 	@Override
@@ -40,7 +40,9 @@ public class NavigationControl implements Observer{
 				switch (button) {
 				case "create order":
 					System.out.println("in NavigationControl , user event: navigation to create order screen");
-					nOrders = new NewOrderControl(navigation);
+					navigation.flipVisibility();
+					nOrders = new NewOrderControl();
+					nOrders.addObserver(this);
 					break;
 				case "ready orders":
 					System.out.println("in NavigationControl , user event: navigation to ready orders screen");
@@ -50,6 +52,13 @@ public class NavigationControl implements Observer{
 					break;
 				}
 			}
+		}
+		if (arg instanceof Boolean) {
+			boolean temp = (boolean) arg;
+			if(temp) {
+				navigation.flipVisibility(); //displayNavScreen(Permissions, Permissions.length, Buttons, Buttons.length);
+			}
+				
 		}
 	}
 }

@@ -94,7 +94,6 @@ public class newOrderPanel extends JPanel {
 							i += 2;
 						}
 						if (finalOrdersList.size() > 0) {
-							System.out.println("validating order");
 							if (mainListensForOrder != null) {
 								incomingOrderEvent temp_event = new incomingOrderEvent(newOrderPanel.this, finalOrdersList, Integer.valueOf(temp));
 								mainListensForOrder.incomingOrderEvent(temp_event); 
@@ -170,7 +169,6 @@ public class newOrderPanel extends JPanel {
 			 
 		}
 		JOptionPane.showMessageDialog(newOrderPanel.this, display, "can't execute the order", JOptionPane.CLOSED_OPTION);
-		
 	}
 	
 	public void displayOrderSucess () {	
