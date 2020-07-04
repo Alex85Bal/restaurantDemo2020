@@ -7,9 +7,11 @@ public class Waiter extends Order {
 	
 	private static final long serialVersionUID = 5L;
 	private Vector<Order> readyOrderList;
-	KitchenOrders dbOpenOrdersLink = new KitchenOrders();
-	WaiterOrders dbReadyOrdersLink = new WaiterOrders();
+	private Vector<dataBaseItem> fileRebuilder;
 
+
+	
+	public Waiter() {}
 	
 	public Waiter(String buildFromFile) {
 		super();
@@ -56,7 +58,7 @@ public void changeDishReady(int orderID, dishItem readyDish) {
     	  temp = this.readyOrderList.get(i).findDishInOrder(readyDish);
     	  temp.setDishReadyStatus(true);
     	  this.readyOrderList.get(i).getDishList().remove(temp);
-    	  dbOpenOrdersLink.addItem(this.regress());
+    	 // dbOpenOrdersLink.addItem(this.regress());
     	 // dbOpenOrdersLink.writeToFile("C:\\projects", "openOrders@1.txt", false);
       }
 	}
@@ -71,7 +73,7 @@ public String asText() {
 	temp += ("#") + super.servicePersonalID;
 	temp += ("#");
 	for (int i = 0; i < getDishList().size(); i++) {
-		temp += (String.valueOf(getDishList().get(i).asText(true)));
+		temp += (String.valueOf(getDishList().get(i).getItemName()));
 		if (i+1<getDishList().size())temp +=("#");
 	}
 	return temp;
@@ -82,5 +84,13 @@ public dataBaseItem regress() {
 	return temp;
 }
 
+@Override
+public Vector<dataBaseItem> rebuild(dataBaseItemTest z) {
+	fileRebuilder = new Vector<dataBaseItem>();
+	for(int i=0;i<z.getVectorSize();i++) 
+		fileRebuilder.add(new Waiter(z.getReleaseToDB().get(i).asText()));
+
+	return fileRebuilder;
+}
 }
 

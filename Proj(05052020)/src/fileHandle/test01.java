@@ -1,21 +1,27 @@
 package fileHandle;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class test01 {
 
 	public static void main(String[] args) throws Exception {
-
-		inventoryVector dbInventoryLink = new inventoryVector();
-		dishVector dbDishLink = new dishVector();
-		KitchenOrders dbOpenOrdersLink = new KitchenOrders();
-		WaiterOrders dbWaiterOrders = new WaiterOrders();
-		WorkersVector dbWorkers = new WorkersVector();
-		WorkersVector dbWorkersq = new WorkersVector();
+		
+		dataBaseItemTest dbInventoryLink = new dataBaseItemTest();
+		dataBaseItemTest dbDishLink = new dataBaseItemTest();
+		dataBaseItemTest dbOpenOrdersLink = new dataBaseItemTest();
+		dataBaseItemTest dbOrders = new dataBaseItemTest();
+		dataBaseItemTest dbWorkers = new dataBaseItemTest();
+		dataBaseItemTest dbWorkersq = new dataBaseItemTest();
+		Vector<dataBaseItem> pls = new Vector<dataBaseItem>();
+		Vector<dataBaseItem> pls1 = new Vector<dataBaseItem>();
+		Vector<dataBaseItem> pls2 = new Vector<dataBaseItem>();
+		Vector<dataBaseItem> pls3 = new Vector<dataBaseItem>();
 		Vector<inventoryItem> PP = new Vector<inventoryItem>();
 		Vector<inventoryItem> YY = new Vector<inventoryItem>();
 		Vector<inventoryItem> QQ = new Vector<inventoryItem>();
+		inventoryItem roki = new inventoryItem();
 		PP.add(new inventoryItem("Inventory", 1, "Potato", 1, 200, 20, "nonTradble"));
 		PP.add(new inventoryItem("Inventory", 2, "Chicken", 1, 40, 5, "nonTradble"));
 		YY.add(new inventoryItem("Inventory",3,"Chocolate",1,300,30,"NonTradble"));
@@ -29,9 +35,10 @@ public class test01 {
 		GG.setIngredientsUsageInDish();
 		Order ZZ = new Order("Order",1,1,420,MM,QQ);
 		Kitchen BG = new Kitchen(ZZ);
-		int[] g = {1,2};
+		ArrayList<Integer> g = new ArrayList<Integer>();
+		g.add(1); g.add(2);
 		Workers w1 = new Workers("Worker",0, "Bob",1,g , "1234", "Temporary");
-
+		dbOrders.addItem(ZZ.regress());
 		dbInventoryLink.addItem(new inventoryItem("Inventory", 1, "Potato", 1, 200, 20, "nonTradble"));
 		dbInventoryLink.addItem(new inventoryItem("Inventory", 2, "Chicken", 1, 40, 5, "nonTradble"));
 		dbInventoryLink.addItem(new inventoryItem("Inventory", 3, "Watermelon", 1, 600, 1, "nonTradble"));
@@ -41,7 +48,7 @@ public class test01 {
 		dbOpenOrdersLink.addItem(BG.regress());
 		dbWorkers.addItem(w1.regress());
 		
-
+		
 		dbWorkers.writeToFile("C:\\projects", "Workers@1.txt", false);
 		dbWorkersq.readFromFile("C:\\projects", "Workers@1.txt");
 
@@ -52,23 +59,31 @@ public class test01 {
 		dbDishLink.writeToFile("C:\\projects", "Dishes@1.txt", false);
 		dbDishLink.readFromFile("C:\\projects", "Dishes@1.txt");
 		
-		dbOpenOrdersLink.writeToFile("C:\\projects", "openOrders@1.txt", false);
-		dbOpenOrdersLink.readFromFile("C:\\projects", "openOrders@1.txt");
-		
+		dbOrders.writeToFile("C:\\projects", "Orders@1.txt", false);
+		dbOrders.readFromFile("C:\\projects", "Orders@1.txt");	
 
-		for (int i = 0; i < dbWorkersq.getVectorSize(); i++)
+		for (int i = 0; i < dbWorkersq.getVectorSize(); i++) 
 			System.out.println(dbWorkersq.getReleaseToDB().get(i).asText());
+		
+		pls=dbWorkersq.whatFileToAccess("Worker", dbWorkersq);
 		
 		for (int i = 0; i < dbInventoryLink.getVectorSize(); i++)
 			System.out.println(dbInventoryLink.getReleaseToDB().get(i).asText());
-
+		
+		pls1=dbInventoryLink.whatFileToAccess("inventoryItem", dbInventoryLink);
+				
 		for (int i = 0; i < dbDishLink.getVectorSize(); i++)
 		System.out.println(dbDishLink.getReleaseToDB().get(i).asText());
 		
+		
+		pls2=dbDishLink.whatFileToAccess("dishItem", dbDishLink);
+		
 //
-		for (int i = 0; i < dbOpenOrdersLink.getVectorSize(); i++)
-		System.out.println(dbOpenOrdersLink.getReleaseToDB().get(i).asText());
+		for (int i = 0; i < dbOrders.getVectorSize(); i++)
+		System.out.println(dbOrders.getReleaseToDB().get(i).asText());
+		
 
+		pls3=dbOrders.whatFileToAccess("Order", dbOrders);
 
 	}
 	

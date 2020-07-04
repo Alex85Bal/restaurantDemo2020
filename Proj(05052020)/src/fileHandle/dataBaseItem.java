@@ -65,4 +65,6 @@ public abstract class dataBaseItem implements Serializable {
 
 	public abstract String asText ();
 	
+	public abstract Vector<dataBaseItem> rebuild (dataBaseItemTest z);
+	
 }

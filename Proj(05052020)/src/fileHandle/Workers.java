@@ -3,6 +3,8 @@
  */
 package fileHandle;
 
+import java.util.ArrayList;
+import java.util.Vector;
 
 /**
  * @author Yosi
@@ -10,9 +12,10 @@ package fileHandle;
  */
 public class Workers extends dataBaseItem {
 	
-	private int[] auth;
+	private ArrayList<Integer> auth;
 	private String pass;
 	private String Type;
+	private Vector<dataBaseItem> fileRebuilder;
 	
 	
 
@@ -26,7 +29,7 @@ public class Workers extends dataBaseItem {
 	public Workers(String buildFromString) {
 		super();
 		String[] tokens = buildFromString.split("#");
-		int j=0;
+		this.auth= new ArrayList<Integer>();
 		int i=0;
 			try {
 		super.setDBName(tokens[i++]);
@@ -35,13 +38,13 @@ public class Workers extends dataBaseItem {
 		super.setInBranch(Integer.parseInt(tokens[i++]));
 		this.pass=(tokens[i++]);
 		this.Type=(tokens[i++]);
-		while(tokens.length>i) {
-			this.auth[j] = Integer.parseInt(tokens[i++]); j++; }
+		while(tokens.length>i) 
+			this.auth.add(Integer.parseInt(tokens[i++])); 
 		} catch (Exception String­Index­Out­Of­Bounds­Exception) {}
 			}
 	
 	
-	public Workers(String DBName,int ID,String Name, int branchID, int[] auth,String pass,String Type) {
+	public Workers(String DBName,int ID,String Name, int branchID, ArrayList<Integer> auth,String pass,String Type) {
 		super(DBName, ID, Name,branchID);
 		this.auth = auth;
 		this.pass=	pass;
@@ -49,12 +52,12 @@ public class Workers extends dataBaseItem {
 	}
 
 
-	public int[] getAuth() {
+	public ArrayList<Integer> getAuth() {
 		return auth;
 	}
 
 
-	public void setAuth(int[] auth) {
+	public void setAuth(ArrayList<Integer> auth) {
 		this.auth = auth;
 	}
 
@@ -82,7 +85,6 @@ public class Workers extends dataBaseItem {
 	
 	@Override
 	public String asText() {
-		int tempAuth[] = getAuth().clone();
 		String temp=super.getDBname();
 		temp += ("#") + super.getItemName();
 		temp += ("#") + super.getID();
@@ -90,9 +92,9 @@ public class Workers extends dataBaseItem {
 		temp += ("#") + this.getPass();
 		temp += ("#") + this.getType();
 		temp += ("#");
-		for (int i = 0; i < getAuth().length; i++) {
-			temp += ((tempAuth[i]));
-			if (i+1<getAuth().length)temp +=("#");
+		for (int i = 0; i < getAuth().size(); i++) {
+			temp += this.getAuth().get(i);
+			if (i+1<getAuth().size())temp +=("#");
 		}
 		return temp;
 	}
@@ -102,5 +104,14 @@ public class Workers extends dataBaseItem {
 		return temp;
 	}
 
+
+	@Override
+	public Vector<dataBaseItem> rebuild(dataBaseItemTest z) {
+		fileRebuilder = new Vector<dataBaseItem>();
+		for(int i=0;i<z.getVectorSize();i++) 
+			fileRebuilder.add(new Workers(z.getReleaseToDB().get(i).asText()));
+	
+		return fileRebuilder;
+	}
 }
 
