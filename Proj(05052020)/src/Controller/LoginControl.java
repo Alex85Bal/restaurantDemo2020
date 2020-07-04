@@ -19,8 +19,10 @@ public class LoginControl implements Observer {
 	public LoginControl()
 	{
 		login = new main_cardFrame();
-		if (login != null)
+		if (login != null) {
 			login.addObserver(this);
+			login.displayLoginScreen();	
+		}
 	}
 
 	@Override
@@ -29,32 +31,35 @@ public class LoginControl implements Observer {
 		// arg, AKA update is a "user_obj" == request for a user-name and password check.
 		if (arg.getClass() == new user_obj().getClass()) {
 			System.out.println("in LoginControl , user event: user input --> controller call to module");
-			user_obj temp = (user_obj) arg;
-			// module request
-			// Module <-- temp
-			// Module --> found + temp / not_found + null
-			
-			boolean Module = true;
-			
-			// Module says yes
-			if(Module) {
-				System.out.println("inLoginControl , module response is positive");
-				temp.setAuth(new int[] {1,1,1,1});
-				temp.setBranch(1);
-				temp.setPersonal_id(007);
-				temp.setPass("111");
-				temp.setSystem_id(1);
-				temp.setType(0);
-				System.out.println("switching to NavigationControl");
-				nav = new NavigationControl(login, temp.getAuth());
+			user_obj temp = (user_obj) arg;			
+			if(temp.getPass() == "") {
+				login.displayErrorOnLogin();
 			}
-			else {// Module says no
-				System.out.println("in LoginControl , module response is negative");
-				if(temp.getPass() != "") {
-					login.displayNoSuchUser(String.valueOf(temp.getPersonal_id()),temp.getPass());
+			else {
+				// module request
+				// Module <-- temp
+				// Module --> found + temp / not_found + null
+				boolean Module = true;
+				
+				// Module says yes
+				if(Module) {
+					System.out.println("inLoginControl , module response is positive");
+					temp.setAuth(new int[] {1,1,1,1});
+					temp.setBranch(1);
+					temp.setPersonal_id(007);
+					temp.setPass("111");
+					temp.setSystem_id(1);
+					temp.setType(0);
+					System.out.println("switching to NavigationControl");
+					login.rip();
+					nav = new NavigationControl(temp.getAuth());
+					
+					
 				}
-				else
-					login.displayErrorOnLogin();
+				else {// Module says no
+					System.out.println("in LoginControl , module response is negative");
+					login.displayNoSuchUser(String.valueOf(temp.getPersonal_id()),temp.getPass());		
+				}
 			}
 		}
 	}

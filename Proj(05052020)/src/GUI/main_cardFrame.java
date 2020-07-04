@@ -17,6 +17,7 @@ import javax.swing.event.EventListenerList;
 
 public class main_cardFrame extends Observable {
 	
+	private boolean vis = false;
 	private JFrame mainFrame;
 	private JPanel cards;
 	private userDataInputPanel UDIP_panel;
@@ -35,6 +36,7 @@ public class main_cardFrame extends Observable {
 		mainFrame = new JFrame("my app");
 		cards = new JPanel();
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		mainFrame.setSize(400, 400);
 		mainFrame.setLocationRelativeTo(null);
 		
@@ -42,7 +44,9 @@ public class main_cardFrame extends Observable {
 		
 		mainFrame.add(cards, BorderLayout.CENTER);
 		cards.setLayout(screens);
-		
+	}
+	
+	public void displayLoginScreen() {
 		UDIP_panel = new userDataInputPanel();
 		UDIP_panel.setListener(new loginListener() {
 			@Override
@@ -53,7 +57,7 @@ public class main_cardFrame extends Observable {
 		});
 
 		cards.add(UDIP_panel, "start");
-		mainFrame.setVisible(true);	
+		mainFrame.setVisible(true);
 	}
 	
 	public boolean displayNoSuchUser (String UserName, String Password) {
@@ -101,6 +105,7 @@ public class main_cardFrame extends Observable {
 		mainFrame.setSize(new Dimension(100,400));
 		mainFrame.setLocationRelativeTo(null);
 		screens.show(cards, "nav");
+		mainFrame.setVisible(true);
 	}
 	
 	public void displayNewOrderScreen(String[] dishes, int dishes_amount) {
@@ -132,6 +137,7 @@ public class main_cardFrame extends Observable {
 		mainFrame.setSize(new Dimension(430,400));
 		mainFrame.setLocationRelativeTo(null);
 		screens.show(cards, "nOrder");
+		mainFrame.setVisible(true);
 	}
 	
 	public void displayReadyOrderScreen (Vector<readyDish_item> displayThese) {
@@ -153,6 +159,7 @@ public class main_cardFrame extends Observable {
 		mainFrame.setSize(new Dimension(430,400));
 		mainFrame.setLocationRelativeTo(null);
 		screens.show(cards, "readyOrd");
+		mainFrame.setVisible(true);
 	}
 
 	public incomingOrderEvent getIncomingOrd() {
@@ -165,5 +172,15 @@ public class main_cardFrame extends Observable {
 	
 	public void displayInvalidAmount (String[] problems) {
 		nOrder.displayInvalidAmount(problems);
+	}
+	
+	public void rip () {
+		mainFrame.dispose();
+	}
+	
+	public void flipVisibility() {
+		mainFrame.setVisible(vis);
+		System.out.println("V is "+vis);
+		vis = ! vis;
 	}
 }
