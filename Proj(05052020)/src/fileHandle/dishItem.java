@@ -13,6 +13,7 @@ public class dishItem extends dataBaseItem {
 	private Vector<inventoryItem> dishIngredients;
 	private boolean ingredientsEnough4Dish = false;
 	private boolean dishReadyStatus=false;
+	private Vector<dataBaseItem> fileRebuilder;
 
 	public boolean isDishReadyStatus() {
 		return dishReadyStatus;
@@ -49,7 +50,7 @@ public class dishItem extends dataBaseItem {
 		super.setItemName(tokens[i++]);
 		super.setInBranch(Integer.parseInt(tokens[i++]));
 		while(tokens.length>i) {
-		this.dishIngredients.add(new inventoryItem(tokens[i++],Integer.parseInt(tokens[i++])));
+		this.dishIngredients.add(new inventoryItem(tokens[i++],Integer.parseInt(tokens[i++]),Integer.parseInt(tokens[i++]),Integer.parseInt(tokens[i++])));
 		}
 		}catch (Exception String­Index­Out­Of­Bounds­Exception) {}
 	}
@@ -83,11 +84,6 @@ public class dishItem extends dataBaseItem {
 		}
 		x.close();
 	}
-
-	public String asText(boolean p) {
-		String temp= this.getItemName();
-		return temp;
-	}
 	
 	@Override
 	public String asText() {
@@ -97,10 +93,22 @@ public class dishItem extends dataBaseItem {
 		temp += ("#") + super.getInBranch();
 		temp += ("#");
 		for (int i = 0; i < getDishIngredientss().size(); i++) {
-			temp += (String.valueOf(getDishIngredientss().get(i).asText(true)));
+			temp += getDishIngredientss().get(i).getItemName();
+			temp += ("#") + String.valueOf(getDishIngredientss().get(i).getID());
+			temp += ("#") + String.valueOf(getDishIngredientss().get(i).getInBranch());
 			temp += ("#") + String.valueOf(getDishIngredientss().get(i).getUsageInDish());
 			if (i+1<getDishIngredientss().size())temp +=("#");
 		}
 		return temp;
 }
+
+
+	@Override
+	public Vector<dataBaseItem> rebuild(dataBaseItemTest z) {
+		fileRebuilder = new Vector<dataBaseItem>();
+		for(int i=0;i<z.getVectorSize();i++) 
+			fileRebuilder.add(new dishItem(z.getReleaseToDB().get(i).asText()));
+	
+		return fileRebuilder;
+	}
 }

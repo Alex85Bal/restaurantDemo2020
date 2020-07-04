@@ -10,6 +10,7 @@ public class Order extends dataBaseItem implements Serializable {
 	protected Vector<inventoryItem> tradbleItemList;
 	protected int servicePersonalID;
 	private boolean orderStatus=false;
+	private Vector<dataBaseItem> fileRebuilder;
 
 	
 	public Order() {
@@ -107,12 +108,17 @@ public class Order extends dataBaseItem implements Serializable {
 		temp += ("#") + this.servicePersonalID;
 		temp += ("#");
 		for (int i = 0; i < getDishList().size(); i++) {
-			temp += (String.valueOf(getDishList().get(i).asText(true)));
+			temp += getDishList().get(i).getItemName();
+			//temp += ("#") + String.valueOf(getDishList().get(i).getDishIngredientss().get(i).getID());
+			//temp += ("#") + String.valueOf(getDishList().get(i).getDishIngredientss().get(i).getInBranch());
+			//temp += ("#") + String.valueOf(getDishList().get(i).getDishIngredientss().get(i).getUsageInDish());
 			if (i+1<getDishList().size())temp +=("#");
 		}
 		temp += ("@");
 		for (int i=0;i<getTradbleItemList().size();i++) {
-			temp += String.valueOf(getTradbleItemList().get(i).asText(true));
+			temp += getTradbleItemList().get(i).getItemName();
+			//temp += ("@") + String.valueOf(getTradbleItemList().get(i).getID());
+			//temp += ("@") + String.valueOf(getTradbleItemList().get(i).getInBranch());
 			if (i+1<getTradbleItemList().size()) temp +=("@");
 		}
 		return temp;
@@ -121,6 +127,15 @@ public class Order extends dataBaseItem implements Serializable {
 	public dataBaseItem regress() {
 		dataBaseItem temp = this;
 		return temp;
+	}
+
+	@Override
+	public Vector<dataBaseItem> rebuild(dataBaseItemTest z) {
+		fileRebuilder = new Vector<dataBaseItem>();
+		for(int i=0;i<z.getVectorSize();i++) 
+			fileRebuilder.add(new Order(z.getReleaseToDB().get(i).asText()));
+	
+		return fileRebuilder;
 	}
 
 }

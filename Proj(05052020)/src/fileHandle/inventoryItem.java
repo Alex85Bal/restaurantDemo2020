@@ -9,8 +9,9 @@ public class inventoryItem extends dataBaseItem {
 	private int currentStock=0;
 	private int minStockWarning=0; // min stock that would cause a warning
 	private String itemType="noneTradble"; // tradble or not
-	private int usageInDish=0;
 	private int inWhatOrder; // if invItem is tradble immideatley ready for delivery
+	private Vector<dataBaseItem> fileRebuilder;
+	private int usageInDish;
 	
 	
 	public inventoryItem() {
@@ -19,8 +20,10 @@ public class inventoryItem extends dataBaseItem {
 		
 	}	
 	
-	public inventoryItem(String name,int usage) {
+	public inventoryItem(String name,int id,int branch,int usage) {
 		super.setItemName(name);
+		super.setID(id);
+		super.setInBranch(branch);
 		this.usageInDish=usage;
 	}
 	
@@ -96,10 +99,6 @@ public class inventoryItem extends dataBaseItem {
 		this.usageInDish = usageInDish;
 	}
 
-	public String asText (boolean g) {
-		String temp = super.getItemName();
-		return temp;
-	}
 
 	@Override
 	public String asText () {
@@ -111,5 +110,14 @@ public class inventoryItem extends dataBaseItem {
 		temp += "#"+String.valueOf(this.minStockWarning);
 		temp += "#"+this.itemType;
 		return temp;
+	}
+
+	@Override
+	public Vector<dataBaseItem> rebuild(dataBaseItemTest z) {
+		fileRebuilder = new Vector<dataBaseItem>();
+		for(int i=0;i<z.getVectorSize();i++) 
+			fileRebuilder.add(new inventoryItem(z.getReleaseToDB().get(i).asText()));
+	
+		return fileRebuilder;
 	}
 }
