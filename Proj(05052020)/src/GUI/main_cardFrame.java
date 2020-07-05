@@ -30,12 +30,28 @@ public class main_cardFrame extends Observable {
 	private newOrderPanel nOrder;
 	private incomingOrderEvent incomingOrd;
 	private boolean goBackRequested = false;
-	public Vector<readyDish_item> serveTheseDishes;
+	private Vector<readyDish_item> serveTheseDishes;
 	
 	public main_cardFrame () {
 		
 		mainFrame = new JFrame("my app");
 		cards = new JPanel();
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		mainFrame.setSize(400, 400);
+		mainFrame.setLocationRelativeTo(null);
+		
+		screens = new CardLayout();
+		
+		mainFrame.add(cards, BorderLayout.CENTER);
+		cards.setLayout(screens);
+	}
+	
+	public main_cardFrame (user_obj user) {
+		
+		mainFrame = new JFrame("my app");
+		cards = new JPanel();
+		searchThis = user;
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		mainFrame.setSize(400, 400);
@@ -109,8 +125,8 @@ public class main_cardFrame extends Observable {
 		mainFrame.setVisible(true);
 	}
 	
-	public void displayNewOrderScreen(String[] dishes, int dishes_amount) {
-		nOrder = new newOrderPanel(dishes, dishes_amount);
+	public void displayNewOrderScreen(String[] dishes, int dishes_amount, user_obj user) {
+		nOrder = new newOrderPanel(dishes, dishes_amount, user);
 		nOrder.setOrderListener(new incomingOrderListener() {
 			
 			@Override
@@ -181,7 +197,6 @@ public class main_cardFrame extends Observable {
 	
 	public void flipVisibility() {
 		mainFrame.setVisible(vis);
-		System.out.println("V is "+vis);
 		vis = ! vis;
 	}
 }
