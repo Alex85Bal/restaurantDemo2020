@@ -13,6 +13,7 @@ public class dishItem extends dataBaseItem {
 	private Vector<inventoryItem> dishIngredients;
 	private boolean ingredientsEnough4Dish = false;
 	private boolean dishReadyStatus=false;
+	private Vector<dataBaseItem> fileRebuilder;
 
 	public boolean isDishReadyStatus() {
 		return dishReadyStatus;
@@ -49,7 +50,7 @@ public class dishItem extends dataBaseItem {
 		super.setItemName(tokens[i++]);
 		super.setInBranch(Integer.parseInt(tokens[i++]));
 		while(tokens.length>i) {
-		this.dishIngredients.add(new inventoryItem(tokens[i++],Integer.parseInt(tokens[i++])));
+		this.dishIngredients.add(new inventoryItem(tokens[i++],Integer.parseInt(tokens[i++]),Integer.parseInt(tokens[i++]),Integer.parseInt(tokens[i++])));
 		}
 		}catch (Exception String­Index­Out­Of­Bounds­Exception) {}
 	}
@@ -60,8 +61,10 @@ public class dishItem extends dataBaseItem {
 
 	}
 	
-	public dishItem(int item_ID,String item_name) {
+	public dishItem(String item_name,int ID) {
 		super.setItemName(item_name);
+		super.setID(ID);
+		this.dishIngredients= new Vector<inventoryItem>();
 	}
 
 	public dataBaseItem regress() {
@@ -69,26 +72,11 @@ public class dishItem extends dataBaseItem {
 		return temp;
 	}
 
-	public void setIngredientsUsageInDish() {
-		Scanner x = new Scanner(System.in);
-		System.out.println(super.getItemName() + "\nIngredients in grams:\n");
-		for (int i = 0; i < dishIngredients.size(); i++) {
-			try {
-				System.out.println(dishIngredients.get(i).asText() +":");
-				dishIngredients.get(i).setUsageInDish(x.nextInt());
-			} catch (InputMismatchException e) {
-				x.nextLine();
-				throw new InputMismatchException("Error,please input a number");
-			}
-		}
-		x.close();
+	public void setIngredientsUsageInDish(dishItem foody) {
+		for (int i = 0; i < foody.dishIngredients.size(); i++) 
+				foody.dishIngredients.get(i).setUsageInDish(foody.dishIngredients.get(i));
 	}
 
-	public String asText(boolean p) {
-		String temp= this.getItemName();
-		return temp;
-	}
-	
 	@Override
 	public String asText() {
 		String temp=super.getDBname();
@@ -97,10 +85,24 @@ public class dishItem extends dataBaseItem {
 		temp += ("#") + super.getInBranch();
 		temp += ("#");
 		for (int i = 0; i < getDishIngredientss().size(); i++) {
-			temp += (String.valueOf(getDishIngredientss().get(i).asText(true)));
+			temp += getDishIngredientss().get(i).getItemName();
+			temp += ("#") + String.valueOf(getDishIngredientss().get(i).getID());
+			temp += ("#") + String.valueOf(getDishIngredientss().get(i).getInBranch());
 			temp += ("#") + String.valueOf(getDishIngredientss().get(i).getUsageInDish());
 			if (i+1<getDishIngredientss().size())temp +=("#");
 		}
 		return temp;
 }
+
+
+	@Override
+	public Vector<dataBaseItem> rebuild(dataBaseItemTest z) {
+		fileRebuilder = new Vector<dataBaseItem>();
+		for(int i=0;i<z.getVectorSize();i++) 
+			fileRebuilder.add(new dishItem(z.getReleaseToDB().get(i).asText()));
+	
+		return fileRebuilder;
+	}
+
+
 }

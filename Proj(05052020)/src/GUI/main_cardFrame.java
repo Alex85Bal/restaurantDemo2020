@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 import java.util.Observable;
@@ -106,8 +107,8 @@ public class main_cardFrame extends Observable {
 		notifyObservers(NavigationChoice);
 	}
 	
-	public void displayNavScreen(int[] permissions, int perm_amount, String[] buttons, int button_amount) {
-		navigation_panel = new navigationPanel(permissions, perm_amount, buttons, button_amount);
+	public void displayNavScreen(ArrayList<Integer> arrayList, int perm_amount, String[] buttons, int button_amount) {
+		navigation_panel = new navigationPanel(arrayList, perm_amount, buttons, button_amount);
 		navigation_panel.setListener(new navigatioListener() {
 			
 			@Override

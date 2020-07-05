@@ -1,5 +1,6 @@
 package Controller;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -8,21 +9,23 @@ import GUI.user_obj;
 
 public class NavigationControl implements Observer{
 	
-	private int[] Permissions;
+	private ArrayList<Integer> Permissions;
 	private main_cardFrame navigation;
 	private NewOrderControl nOrders;
 	private OrderServedControl rOrders;
 	private String Buttons[] = {"create order","ready orders","under construction"};
 	private user_obj user;
 	
-	public NavigationControl(int[] Permissions, user_obj user) {
+	
+		
+	public NavigationControl(ArrayList<Integer> arrayList, user_obj user) {
 		this.user = user;
 		navigation = new main_cardFrame();
 		if(navigation != null) {
 			navigation.addObserver(this);
-			this.Permissions = Permissions;
+			this.Permissions = arrayList;
 			System.out.println("in NavigationControl , launching navigation screen");
-			navigation.displayNavScreen(Permissions, Permissions.length, Buttons, Buttons.length);
+			navigation.displayNavScreen(arrayList, arrayList.size(), Buttons, Buttons.length);
 		}
 	}
 

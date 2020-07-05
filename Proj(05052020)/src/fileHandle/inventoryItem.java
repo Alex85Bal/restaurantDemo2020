@@ -1,6 +1,7 @@
 package fileHandle;
 
 import java.io.Serializable;
+import java.util.Random;
 import java.util.Vector;
 
 public class inventoryItem extends dataBaseItem {
@@ -9,8 +10,8 @@ public class inventoryItem extends dataBaseItem {
 	private int currentStock=0;
 	private int minStockWarning=0; // min stock that would cause a warning
 	private String itemType="noneTradble"; // tradble or not
-	private int usageInDish=0;
-	private int inWhatOrder; // if invItem is tradble immideatley ready for delivery
+	private Vector<dataBaseItem> fileRebuilder;
+	private int usageInDish;
 	
 	
 	public inventoryItem() {
@@ -19,14 +20,17 @@ public class inventoryItem extends dataBaseItem {
 		
 	}	
 	
-	public inventoryItem(String name,int usage) {
+	public inventoryItem(String name,int id,int branch,int usage) {
 		super.setItemName(name);
-		this.usageInDish=usage;
+		super.setID(id);
+		super.setInBranch(branch);
+		this.setUsageInDish(usage);
 	}
 	
-	public inventoryItem(int id,String name) {
-		super.setID(id);
+	public inventoryItem(String name,int id,int branch) {
 		super.setItemName(name);
+		super.setID(id);
+		super.setInBranch(branch);
 	}
 	
 	public inventoryItem(String buildFromString) {
@@ -92,14 +96,15 @@ public class inventoryItem extends dataBaseItem {
 		return usageInDish;
 	}
 
-	public void setUsageInDish(int usageInDish) {
-		this.usageInDish = usageInDish;
+	public void setUsageInDish(inventoryItem z) {
+		Random ran = new Random();
+		z.usageInDish= ran.nextInt(2) + 5;
+	}
+	
+	public void setUsageInDish(int num) {
+		this.usageInDish=num;
 	}
 
-	public String asText (boolean g) {
-		String temp = super.getItemName();
-		return temp;
-	}
 
 	@Override
 	public String asText () {
@@ -111,5 +116,14 @@ public class inventoryItem extends dataBaseItem {
 		temp += "#"+String.valueOf(this.minStockWarning);
 		temp += "#"+this.itemType;
 		return temp;
+	}
+
+	@Override
+	public Vector<dataBaseItem> rebuild(dataBaseItemTest z) {
+		fileRebuilder = new Vector<dataBaseItem>();
+		for(int i=0;i<z.getVectorSize();i++) 
+			fileRebuilder.add(new inventoryItem(z.getReleaseToDB().get(i).asText()));
+	
+		return fileRebuilder;
 	}
 }
