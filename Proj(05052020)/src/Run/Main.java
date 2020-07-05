@@ -16,8 +16,13 @@ public class Main {
 
 
 	public static void main(String[] args) throws IOException, Exception  {
+		// CREATING FILES WITH FAKE DATA OF INVENTORY ITEMS,DISHES AND WORKERS
 		dataMine p = new dataMine();
 		p.workerMineData();
+		p.inventoryItemsMineData();
+		p.dishItemMineData();
+		
+		
 		// new controller 1;
 		LoginControl start = new LoginControl();
 		

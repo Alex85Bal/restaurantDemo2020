@@ -33,18 +33,25 @@ public class Order extends dataBaseItem implements Serializable {
 			String[] tokens = tokeno.split("#");
 			String[] lokens = lokeno.split("@");
 			int i=0;
+			int j=0;
 			try {
 			super.setDBName(tokens[i++]);
 			super.setID(Integer.parseInt(tokens[i++]));
 			super.setInBranch(Integer.parseInt(tokens[i++]));
 			this.setServicePersonalID(Integer.parseInt(tokens[i++]));
 			while(tokens.length>i) {
-			this.dishList.add(new dishItem(0,(tokens[i++]))); }
+			this.dishList.add(new dishItem(tokens[i++],Integer.parseInt(tokens[i++])));
+			while(!(tokens[i].contentEquals(" "))) {
+			this.dishList.get(j).getDishIngredientss().add(new inventoryItem(tokens[i++],Integer.parseInt(tokens[i++]),Integer.parseInt(tokens[i++]),Integer.parseInt(tokens[i++])));
+			}
+			i++; j++;
+			}
 			i=0;
-			while (lokens.length >i) {
-			this.tradbleItemList.add(new inventoryItem(0,(lokens[i++]))); }
-			}catch (Exception String­Index­Out­Of­Bounds­Exception) {}
-		}
+			while (lokens.length >i) 
+			this.tradbleItemList.add(new inventoryItem((lokens[i++]),Integer.parseInt(lokens[i++]),Integer.parseInt(lokens[i++])));
+			}catch (Exception ex ) {
+            if (ex instanceof NumberFormatException || ex instanceof StringIndexOutOfBoundsException) {}};	
+	}
 
 	
 	public void setTradbleItemList(Vector<inventoryItem> tradbleItemList) {
@@ -60,8 +67,7 @@ public class Order extends dataBaseItem implements Serializable {
 		this.tradbleItemList = p;
 	}
 	
-	public Order(String DBName,int ID,int branch,int servicePID,Vector<dishItem> g) {
-		super.setDBName(DBName);
+	public Order(int ID,int branch,int servicePID,Vector<dishItem> g) {
 		super.setID(ID);
 		super.setInBranch(branch);
 		this.servicePersonalID= servicePID;
@@ -81,11 +87,6 @@ public class Order extends dataBaseItem implements Serializable {
 		this.dishList = dishList;
 	}
 	
-	/*
-	public void addToDishList(dishItem g) {
-		this.dishList.add(g);
-	}
-	*/
 
 	public Vector<dishItem> getDishList() {
 		return dishList;
@@ -109,16 +110,21 @@ public class Order extends dataBaseItem implements Serializable {
 		temp += ("#");
 		for (int i = 0; i < getDishList().size(); i++) {
 			temp += getDishList().get(i).getItemName();
-			//temp += ("#") + String.valueOf(getDishList().get(i).getDishIngredientss().get(i).getID());
-			//temp += ("#") + String.valueOf(getDishList().get(i).getDishIngredientss().get(i).getInBranch());
-			//temp += ("#") + String.valueOf(getDishList().get(i).getDishIngredientss().get(i).getUsageInDish());
+			temp += ("#") + getDishList().get(i).getID();
+			for (int j=0;j<getDishList().get(i).getDishIngredientss().size();j++) {
+			temp += ("#") + getDishList().get(i).getDishIngredientss().get(j).getItemName();
+			temp += ("#") + String.valueOf(getDishList().get(i).getDishIngredientss().get(j).getID());
+			temp += ("#") + String.valueOf(getDishList().get(i).getDishIngredientss().get(j).getInBranch());
+			temp += ("#") + String.valueOf(getDishList().get(i).getDishIngredientss().get(j).getUsageInDish());
+			}
+			temp += ("#") + (" ");
 			if (i+1<getDishList().size())temp +=("#");
 		}
 		temp += ("@");
 		for (int i=0;i<getTradbleItemList().size();i++) {
 			temp += getTradbleItemList().get(i).getItemName();
-			//temp += ("@") + String.valueOf(getTradbleItemList().get(i).getID());
-			//temp += ("@") + String.valueOf(getTradbleItemList().get(i).getInBranch());
+			temp += ("@") + String.valueOf(getTradbleItemList().get(i).getID());
+			temp += ("@") + String.valueOf(getTradbleItemList().get(i).getInBranch());
 			if (i+1<getTradbleItemList().size()) temp +=("@");
 		}
 		return temp;

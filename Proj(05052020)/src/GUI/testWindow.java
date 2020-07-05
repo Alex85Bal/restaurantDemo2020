@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
@@ -48,7 +50,7 @@ public class testWindow implements Observer {
 			
 			System.out.println("controler goes to model with :\n");
 			System.out.println(UO.getPersonal_id()+"\n"+UO.getPass()+"\n");
-			run.displayNavScreen(new int[] {1,1,0,0}, 3,
+			run.displayNavScreen(new ArrayList<>(Arrays.asList(1,1,0,0)), 3,
 					new String[] {"new order","ready orders","underConstruction1","exit"},4);
 		}
 		else
@@ -88,7 +90,7 @@ public class testWindow implements Observer {
 					if(arg instanceof Boolean) {
 						GOB = (boolean)arg;
 						if (GOB)
-							run.displayNavScreen(new int[] {1,1,0,1}, 4,
+							run.displayNavScreen(new ArrayList<>(Arrays.asList(1,1,0,1)), 4,
 									new String[] {"new order","ready orders","underConstruction1"},3);
 					}
 					else
@@ -100,7 +102,7 @@ public class testWindow implements Observer {
 								System.out.println(readyDish_item.getName());
 								System.out.println(readyDish_item.getAmount());
 							}
-							run.displayNavScreen(new int[] {1,1,0,0}, 3,
+							run.displayNavScreen(new ArrayList<>(Arrays.asList(1,1,0,0)), 3,
 									new String[] {"new order","ready orders","underConstruction1","exit"},4);
 						}
 	}

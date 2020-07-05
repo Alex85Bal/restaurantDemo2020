@@ -1,6 +1,7 @@
 package fileHandle;
 
 import java.io.Serializable;
+import java.util.Random;
 import java.util.Vector;
 
 public class inventoryItem extends dataBaseItem {
@@ -9,7 +10,6 @@ public class inventoryItem extends dataBaseItem {
 	private int currentStock=0;
 	private int minStockWarning=0; // min stock that would cause a warning
 	private String itemType="noneTradble"; // tradble or not
-	private int inWhatOrder; // if invItem is tradble immideatley ready for delivery
 	private Vector<dataBaseItem> fileRebuilder;
 	private int usageInDish;
 	
@@ -24,12 +24,13 @@ public class inventoryItem extends dataBaseItem {
 		super.setItemName(name);
 		super.setID(id);
 		super.setInBranch(branch);
-		this.usageInDish=usage;
+		this.setUsageInDish(usage);
 	}
 	
-	public inventoryItem(int id,String name) {
-		super.setID(id);
+	public inventoryItem(String name,int id,int branch) {
 		super.setItemName(name);
+		super.setID(id);
+		super.setInBranch(branch);
 	}
 	
 	public inventoryItem(String buildFromString) {
@@ -95,8 +96,13 @@ public class inventoryItem extends dataBaseItem {
 		return usageInDish;
 	}
 
-	public void setUsageInDish(int usageInDish) {
-		this.usageInDish = usageInDish;
+	public void setUsageInDish(inventoryItem z) {
+		Random ran = new Random();
+		z.usageInDish= ran.nextInt(2) + 5;
+	}
+	
+	public void setUsageInDish(int num) {
+		this.usageInDish=num;
 	}
 
 
