@@ -10,6 +10,15 @@ public class user_obj {
 	private int personal_id;
 	private String pass;
 	ArrayList<Integer> auth;
+	int[] autho;
+	public int[] getAutho() {
+		return autho;
+	}
+
+	public void setAutho(int[] autho) {
+		this.autho = autho;
+	}
+
 	private String type;
 	//private String userRequest;
 	private int branch;

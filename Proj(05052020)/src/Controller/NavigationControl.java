@@ -16,13 +16,10 @@ public class NavigationControl implements Observer{
 	private String Buttons[] = {"create order","ready orders","under construction"};
 	private user_obj user;
 	
-<<<<<<< HEAD
-	public NavigationControl(ArrayList<Integer> arrayList) {
+	
 		
-=======
-	public NavigationControl(int[] Permissions, user_obj user) {
+	public NavigationControl(ArrayList<Integer> arrayList, user_obj user) {
 		this.user = user;
->>>>>>> a6084e758f72da287a62f95e72d7857615e32771
 		navigation = new main_cardFrame();
 		if(navigation != null) {
 			navigation.addObserver(this);
