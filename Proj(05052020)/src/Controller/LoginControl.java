@@ -52,7 +52,7 @@ public class LoginControl implements Observer {
 					temp.setType(0);
 					System.out.println("switching to NavigationControl");
 					login.rip();
-					nav = new NavigationControl(temp.getAuth());
+					nav = new NavigationControl(temp.getAuth(),temp);
 					
 					
 				}

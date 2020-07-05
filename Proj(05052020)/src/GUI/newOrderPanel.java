@@ -35,7 +35,7 @@ public class newOrderPanel extends JPanel {
 	private List<JLabel> noticed; // i = dish, i+1 = amount.
 	private List<order_item> finalOrdersList;
 	
-	public newOrderPanel(String[] dishes, int dishes_amount) {
+	public newOrderPanel(String[] dishes, int dishes_amount, user_obj user ) {
 		
 		noticed = new Vector<JLabel>();
 		finalOrdersList = new Vector<order_item>();

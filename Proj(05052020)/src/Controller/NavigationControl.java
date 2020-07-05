@@ -13,9 +13,10 @@ public class NavigationControl implements Observer{
 	private NewOrderControl nOrders;
 	private OrderServedControl rOrders;
 	private String Buttons[] = {"create order","ready orders","under construction"};
+	private user_obj user;
 	
-	public NavigationControl(int[] Permissions) {
-		
+	public NavigationControl(int[] Permissions, user_obj user) {
+		this.user = user;
 		navigation = new main_cardFrame();
 		if(navigation != null) {
 			navigation.addObserver(this);
@@ -41,11 +42,19 @@ public class NavigationControl implements Observer{
 				case "create order":
 					System.out.println("in NavigationControl , user event: navigation to create order screen");
 					navigation.flipVisibility();
-					nOrders = new NewOrderControl();
+					nOrders = new NewOrderControl(user);
 					nOrders.addObserver(this);
 					break;
 				case "ready orders":
 					System.out.println("in NavigationControl , user event: navigation to ready orders screen");
+					navigation.flipVisibility();
+					if(rOrders == null) {
+						rOrders = new OrderServedControl(user);
+						rOrders.addObserver(this);
+					}
+					else {
+						rOrders.backToReadyOrders();
+					}
 					break;
 				default:
 					System.out.println("in NavigationControl , user event: navigation error --> can't display screen");
@@ -56,9 +65,8 @@ public class NavigationControl implements Observer{
 		if (arg instanceof Boolean) {
 			boolean temp = (boolean) arg;
 			if(temp) {
-				navigation.flipVisibility(); //displayNavScreen(Permissions, Permissions.length, Buttons, Buttons.length);
+				navigation.flipVisibility();
 			}
-				
 		}
 	}
 }
