@@ -32,9 +32,8 @@ public class test01 {
 		dishItem LL = new dishItem("Dish",2,"Cake",1,YY);
 		Vector<dishItem> MM = new Vector<dishItem>();
 		MM.add(GG); MM.add(LL);
-		GG.setIngredientsUsageInDish();
 		Order ZZ = new Order("Order",1,1,420,MM,QQ);
-		Kitchen BG = new Kitchen(ZZ);
+		//Kitchen BG = new Kitchen(ZZ);
 		ArrayList<Integer> g = new ArrayList<Integer>();
 		g.add(1); g.add(2);
 		Workers w1 = new Workers("Worker",0, "Bob",1,g , "1234", "Temporary");
@@ -45,7 +44,7 @@ public class test01 {
 		dbInventoryLink.addItem(new inventoryItem("Inventory", 4, "CokeZero", 1, 999, 40, "Tradble"));
 		dbDishLink.addItem(GG.regress());
 		dbDishLink.addItem(LL.regress());
-		dbOpenOrdersLink.addItem(BG.regress());
+		//dbOpenOrdersLink.addItem(BG.regress());
 		dbWorkers.addItem(w1.regress());
 		
 		
@@ -84,7 +83,8 @@ public class test01 {
 		
 
 		pls3=dbOrders.whatFileToAccess("Order", dbOrders);
-
+		
+	
 	}
 	
 }

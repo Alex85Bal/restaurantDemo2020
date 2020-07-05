@@ -18,18 +18,18 @@ public class navigationPanel extends JPanel {
 	
 	navigatioListener sharedWithMainFrame;
 	
-	public navigationPanel(int[] permissions, int perm_amount, String[] buttons, int button_amount) {
+	public navigationPanel(ArrayList<Integer> arrayList, int perm_amount, String[] buttons, int button_amount) {
 
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		int min;
-		if (permissions.length >= buttons.length)
+		if (arrayList.size() >= buttons.length)
 			min = buttons.length;
 		else
-			min = permissions.length;
+			min = arrayList.size();
 		
 		for(int i = 0; i < min ; i++) {
-			if (permissions[i] != 0)
+			if (arrayList.get(i) != 0)
 			addButton(buttons[i]);
 		}
 		

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
- class dataBaseItemTest implements Serializable {
+ public class dataBaseItemTest implements Serializable {
 
 	protected Vector<dataBaseItem> releaseToDB = new Vector<dataBaseItem>();
 	protected Exception insufficient_Access_To_FIle = new Exception();

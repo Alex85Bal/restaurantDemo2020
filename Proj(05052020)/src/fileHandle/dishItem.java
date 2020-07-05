@@ -61,8 +61,10 @@ public class dishItem extends dataBaseItem {
 
 	}
 	
-	public dishItem(int item_ID,String item_name) {
+	public dishItem(String item_name,int ID) {
 		super.setItemName(item_name);
+		super.setID(ID);
+		this.dishIngredients= new Vector<inventoryItem>();
 	}
 
 	public dataBaseItem regress() {
@@ -70,21 +72,11 @@ public class dishItem extends dataBaseItem {
 		return temp;
 	}
 
-	public void setIngredientsUsageInDish() {
-		Scanner x = new Scanner(System.in);
-		System.out.println(super.getItemName() + "\nIngredients in grams:\n");
-		for (int i = 0; i < dishIngredients.size(); i++) {
-			try {
-				System.out.println(dishIngredients.get(i).asText() +":");
-				dishIngredients.get(i).setUsageInDish(x.nextInt());
-			} catch (InputMismatchException e) {
-				x.nextLine();
-				throw new InputMismatchException("Error,please input a number");
-			}
-		}
-		x.close();
+	public void setIngredientsUsageInDish(dishItem foody) {
+		for (int i = 0; i < foody.dishIngredients.size(); i++) 
+				foody.dishIngredients.get(i).setUsageInDish(foody.dishIngredients.get(i));
 	}
-	
+
 	@Override
 	public String asText() {
 		String temp=super.getDBname();
@@ -111,4 +103,6 @@ public class dishItem extends dataBaseItem {
 	
 		return fileRebuilder;
 	}
+
+
 }

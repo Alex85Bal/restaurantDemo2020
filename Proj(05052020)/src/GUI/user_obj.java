@@ -1,13 +1,25 @@
 package GUI;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class user_obj {
 	
 	//private static int globalID;
 	private int system_id;
 	private int personal_id;
 	private String pass;
-	private int[] auth;
-	private int type;
+	ArrayList<Integer> auth;
+	int[] autho;
+	public int[] getAutho() {
+		return autho;
+	}
+
+	public void setAutho(int[] autho) {
+		this.autho = autho;
+	}
+
+	private String type;
 	//private String userRequest;
 	private int branch;
 	
@@ -25,19 +37,19 @@ public class user_obj {
 		}
 	}
 
-	public user_obj(int personal_id, String pass, int[] auth, int type, int branch) {
+	public user_obj(int personal_id, String pass, ArrayList<Integer> auth, String type, int branch) {
 		try {
 			this.personal_id = personal_id;
 			this.pass = pass;
-			this.auth = auth.clone();
+			this.auth = auth;
 			this.type = type;
 			this.branch = branch;
 			//this.system_id = globalID++;
 		} catch (Exception e) {
 			this.personal_id = 0;
 			this.pass = "";
-			this.auth = new int[0];
-			this.type = 0;
+			this.auth = new ArrayList<>(Arrays.asList(0));
+			this.type = "None";
 			this.branch = 0;
 			//this.system_id = globalID;
 		}
@@ -67,19 +79,19 @@ public class user_obj {
 		this.pass = pass;
 	}
 
-	public int[] getAuth() {
+	public ArrayList<Integer> getAuth() {
 		return auth;
 	}
 
-	public void setAuth(int[] auth) {
-		this.auth = auth.clone();
+	public void setAuth(ArrayList<Integer> auth) {
+		this.auth = auth;
 	}
 
-	public int getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(int type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
@@ -100,4 +112,6 @@ public class user_obj {
 	public void setBranch(int branch) {
 		this.branch = branch;
 	}
+
+
 }
