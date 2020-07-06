@@ -66,6 +66,7 @@ public class OrderModule {
 	public String incomingOrder (incomingOrderEvent IncomingOrder) {
 		
 		ChangeableString canOrderOnlyThose = new ChangeableString("");
+		if (CurrentInventory.isEmpty()) return "0 inventory";
 		if (isOrderAllowed(IncomingOrder, canOrderOnlyThose)) {
 			// write to CurrentInventory to inventory file.
 			return "";
@@ -205,7 +206,7 @@ public static void main(String[] args) throws IOException, Exception  {
 
 		
 		List<order_item> myDishes = new Vector<order_item>();
-		myDishes.add(new order_item("test1", 5, dishes.get(0)));
+		myDishes.add(new order_item("test1", 100, dishes.get(0)));
 		myDishes.add(new order_item("test2", 11, dishes.get(1)));
 		incomingOrderEvent ord1 = new incomingOrderEvent(new JPanel(), myDishes, 666);
 		
