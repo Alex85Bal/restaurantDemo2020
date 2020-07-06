@@ -17,8 +17,6 @@ public class Workers extends dataBaseItem {
 	private String Type;
 	private Vector<dataBaseItem> fileRebuilder;
 	
-	
-
 	public Workers() {
 		super();
 		super.setDBName("Workers");
