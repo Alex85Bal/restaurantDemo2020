@@ -82,7 +82,7 @@ public class dataMine {
 		dbDishLink.addItem(one.regress());
 		
 		Vector<inventoryItem> BB = new Vector<inventoryItem>();
-		BB.add(new inventoryItem("Inventory", 14, "Vanilla", 1, 555, 444, "Tradble"));
+		BB.add(new inventoryItem("Inventory", 10, "Vanilla", 1, 555, 444, "Tradble"));
 		BB.add(new inventoryItem("Inventory", 15, "Honey", 1, 120, 25, "nonTradble"));
 		BB.add(new inventoryItem("Inventory", 9, "Bread", 1, 500, 234, "nonTradble"));
 		dishItem two= new dishItem("Dish", 2, "Special Bread", 1, BB);

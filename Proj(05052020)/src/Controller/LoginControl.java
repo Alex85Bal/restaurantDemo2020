@@ -11,11 +11,7 @@ import fileHandle.dataBaseItem;
 import fileHandle.dataBaseItemTest;
 
 public class LoginControl implements Observer {
-	
-	private boolean canDisplayNav = false; 
-	private String PID;
-	private String Pass;
-	private String UID;
+
 	dataBaseItemTest dbWorkers = new dataBaseItemTest();
 	Vector<dataBaseItem> source = new Vector<dataBaseItem>();
 	Vector<Workers> heyo = new Vector<Workers>();
@@ -74,8 +70,6 @@ public class LoginControl implements Observer {
 					System.out.println("switching to NavigationControl");
 					login.rip();
 					nav = new NavigationControl(temp.getAuth(),temp);
-					
-					
 				}
 				else {// Module says no
 					System.out.println("in LoginControl , module response is negative");
