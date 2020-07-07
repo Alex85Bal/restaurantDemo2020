@@ -24,6 +24,7 @@ public class OrderServedControl extends Observable implements Observer{
 		shouldBeServed = new Vector<readyDish_item>();
 		ready = new main_cardFrame(user);
 		ready.addObserver(this);
+		
 		// Module <-- request for Ready dishes for user.
 		// Module --> partial  OR whole Order.
 		// i'm faking it ^ :

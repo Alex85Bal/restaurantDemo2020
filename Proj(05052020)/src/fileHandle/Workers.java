@@ -18,9 +18,6 @@ public class Workers extends dataBaseItem {
 	private Vector<dataBaseItem> fileRebuilder;
 	
 	
-
-	public Workers() {}	
-	
 	
 	public Workers(String buildFromString) {
 		super();
