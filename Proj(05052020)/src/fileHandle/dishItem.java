@@ -39,6 +39,11 @@ public class dishItem extends dataBaseItem {
 		this.dishIngredients = dishIngredients;
 	}
 
+	public dishItem (String time,boolean fileLock) {
+		super.setCurrentTime(time);
+		super.setFileLocked(fileLock);
+	}
+	
 	public dishItem(String buildFromString) {
 		super();
 		this.dishIngredients = new Vector<inventoryItem>();
@@ -98,7 +103,7 @@ public class dishItem extends dataBaseItem {
 	@Override
 	public Vector<dataBaseItem> rebuild(dataBaseItemTest z) {
 		fileRebuilder = new Vector<dataBaseItem>();
-		for(int i=0;i<z.getVectorSize();i++) 
+		for(int i=1;i<z.getVectorSize();i++) 
 			fileRebuilder.add(new dishItem(z.getReleaseToDB().get(i).asText()));
 	
 		return fileRebuilder;

@@ -8,13 +8,19 @@ import java.util.Vector;
 import fileHandle.Workers;
 import fileHandle.dataBaseItemTest;
 import fileHandle.dishItem;
+import fileHandle.formatMyDateDaddy;
 import fileHandle.inventoryItem;
 
 public class dataMine {
 	
+	private formatMyDateDaddy popo = new formatMyDateDaddy();
+	
 	// ***** Worker file creaton *****
 	public void workerMineData() throws IOException, Exception {
 		dataBaseItemTest dbWorker = new dataBaseItemTest();
+		
+			dbWorker.addItem(new Workers(popo.getCurrentTime(),popo.getFileLockage()));
+			
 			ArrayList<Integer> g1 = new ArrayList<>(Arrays.asList(1,2));
 			dbWorker.addItem(new Workers("Worker",1, "Bob", 1 ,g1 ,"123", "Temporary"));
 			
@@ -46,6 +52,8 @@ public class dataMine {
 
 	public void inventoryItemsMineData() throws IOException, Exception {
 		dataBaseItemTest dbInventoryLink = new dataBaseItemTest();
+		dbInventoryLink.addItem(new inventoryItem(popo.getCurrentTime(),popo.getFileLockage()));
+		
 		dbInventoryLink.addItem(new inventoryItem("Inventory", 1, "Potato", 1, 200, 20, "nonTradble"));
 		dbInventoryLink.addItem(new inventoryItem("Inventory", 2, "Chicken", 1, 16, 5, "nonTradble"));
 		dbInventoryLink.addItem(new inventoryItem("Inventory", 3, "Watermelon", 1, 600, 1, "nonTradble"));
@@ -74,6 +82,8 @@ public class dataMine {
 	
 	public void dishItemMineData() throws IOException, Exception {
 		dataBaseItemTest dbDishLink = new dataBaseItemTest();
+		dbDishLink.addItem(new dishItem(popo.getCurrentTime(),popo.getFileLockage()));
+		
 		Vector<inventoryItem> AA = new Vector<inventoryItem>();
 		AA.add(new inventoryItem("Inventory", 1, "Potato", 1, 200, 20, "nonTradble"));
 		AA.add(new inventoryItem("Inventory", 2, "Chicken", 1, 40, 5, "nonTradble"));
