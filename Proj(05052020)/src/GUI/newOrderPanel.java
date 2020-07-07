@@ -95,21 +95,10 @@ public class newOrderPanel extends JPanel {
 				if ((tableNumInput.getText().compareTo("") != 0)) {
 					String temp = tableNumInput.getText();
 					if(temp.matches("[0-9]+")) {
-						Set mapStart = DB_Labeled.entrySet(); // binds the map into sets 
-						Iterator iterator = mapStart.iterator(); // allows iteration
-						while(iterator.hasNext()) {
-							Map.Entry mapSet = (Map.Entry)iterator.next();
-							JLabel dummy = (JLabel) mapSet.getValue();
-							if(Integer.valueOf(dummy.getText()) > 0) {
-								finalOrders.add(new order_item(dishes.get((int) mapSet.getKey()).getItemName(),// dish name
-										Integer.valueOf(dummy.getText()), // amount
-										dishes.get((int) mapSet.getKey())) // dishItem itself
-										);
-								if (mainListensForOrder != null) {
-									incomingOrderEvent temp_event = new incomingOrderEvent(newOrderPanel.this, finalOrders, Integer.valueOf(temp));
-									mainListensForOrder.incomingOrderEvent(temp_event); 
-								}
-							}
+						composeFinalOrder();
+						if (mainListensForOrder != null) {
+							incomingOrderEvent temp_event = new incomingOrderEvent(newOrderPanel.this, finalOrders, Integer.valueOf(temp));
+							mainListensForOrder.incomingOrderEvent(temp_event); 
 						}
 					}
 					else {
@@ -175,8 +164,10 @@ public class newOrderPanel extends JPanel {
 		
 		String display = "Order Refused\n"+canBeOrdered+"\nWill be accepted\n";
 		if(canBeOrdered.equalsIgnoreCase("Whole Order Refused")) display = canBeOrdered;
-		finalOrders.clear();
+		//finalOrders.clear();
+		//composeFinalOrder();
 		JOptionPane.showMessageDialog(newOrderPanel.this, display, "can't execute the order", JOptionPane.CLOSED_OPTION);
+		System.out.println("displayInvalidAmount "+dishes.get(0).getDishIngredientss().isEmpty()+"**********************************************************");
 	}
 	
 	public void displayOrderSucess () {	
@@ -191,6 +182,7 @@ public class newOrderPanel extends JPanel {
 		}
 		tableNumInput.setText("");
 		finalOrders.clear();
+		System.out.println("displayOrderSucess "+dishes.get(0).getDishIngredientss().isEmpty()+"**********************************************************");
 
 	}
 	
@@ -200,6 +192,23 @@ public class newOrderPanel extends JPanel {
 	
 	public void setGoBackListener (goBackListener gb) {
 		mainListensForGoBack = gb;
+	}
+	
+	private void composeFinalOrder() {
+		finalOrders.clear();
+		Set mapStart = DB_Labeled.entrySet(); // binds the map into sets 
+		Iterator iterator = mapStart.iterator(); // allows iteration
+		while(iterator.hasNext()) {
+			Map.Entry mapSet = (Map.Entry)iterator.next();
+			JLabel dummy = (JLabel) mapSet.getValue();
+			if(Integer.valueOf(dummy.getText()) > 0) {
+				finalOrders.add(new order_item(dishes.get((int) mapSet.getKey()).getItemName(),// dish name
+						Integer.valueOf(dummy.getText()), // amount
+						dishes.get((int) mapSet.getKey())) // dishItem itself
+						);
+				
+			}
+		}
 	}
 	
 }
