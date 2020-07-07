@@ -19,6 +19,12 @@ public class Order extends dataBaseItem implements Serializable {
 
 	}
 	
+
+	public Order (String time,boolean fileLock) {
+		super.setCurrentTime(time);
+		super.setFileLocked(fileLock);
+	}
+	
 	public void setOrderStatus(boolean orderStatus) {
 		this.orderStatus = orderStatus;
 	}
@@ -138,7 +144,7 @@ public class Order extends dataBaseItem implements Serializable {
 	@Override
 	public Vector<dataBaseItem> rebuild(dataBaseItemTest z) {
 		fileRebuilder = new Vector<dataBaseItem>();
-		for(int i=0;i<z.getVectorSize();i++) 
+		for(int i=1;i<z.getVectorSize();i++) 
 			fileRebuilder.add(new Order(z.getReleaseToDB().get(i).asText()));
 	
 		return fileRebuilder;
