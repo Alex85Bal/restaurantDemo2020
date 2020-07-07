@@ -167,7 +167,7 @@ public class newOrderPanel extends JPanel {
 		//finalOrders.clear();
 		//composeFinalOrder();
 		JOptionPane.showMessageDialog(newOrderPanel.this, display, "can't execute the order", JOptionPane.CLOSED_OPTION);
-		System.out.println("displayInvalidAmount "+dishes.get(0).getDishIngredientss().isEmpty()+"**********************************************************");
+		//System.out.println("displayInvalidAmount "+dishes.get(0).getDishIngredientss().isEmpty()+"**********************************************************");
 	}
 	
 	public void displayOrderSucess () {	
@@ -182,7 +182,7 @@ public class newOrderPanel extends JPanel {
 		}
 		tableNumInput.setText("");
 		finalOrders.clear();
-		System.out.println("displayOrderSucess "+dishes.get(0).getDishIngredientss().isEmpty()+"**********************************************************");
+		//System.out.println("displayOrderSucess "+dishes.get(0).getDishIngredientss().isEmpty()+"**********************************************************");
 
 	}
 	
