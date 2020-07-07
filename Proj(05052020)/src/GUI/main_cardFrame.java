@@ -16,6 +16,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
 
+import fileHandle.dishItem;
+
 public class main_cardFrame extends Observable {
 	
 	private boolean vis = false;
@@ -125,7 +127,7 @@ public class main_cardFrame extends Observable {
 		mainFrame.setVisible(true);
 	}
 	
-	public void displayNewOrderScreen(String[] dishes, int dishes_amount, user_obj user) {
+	public void displayNewOrderScreen(Vector<dishItem> dishes, int dishes_amount, user_obj user) {
 		nOrder = new newOrderPanel(dishes, dishes_amount, user);
 		nOrder.setOrderListener(new incomingOrderListener() {
 			
@@ -187,7 +189,7 @@ public class main_cardFrame extends Observable {
 		nOrder.displayOrderSucess();
 	}
 	
-	public void displayInvalidAmount (String[] problems) {
+	public void displayInvalidAmount (String problems) {
 		nOrder.displayInvalidAmount(problems);
 	}
 	

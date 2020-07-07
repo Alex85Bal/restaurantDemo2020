@@ -11,7 +11,11 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -25,6 +29,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import fileHandle.dishItem;
+import fileHandle.inventoryItem;
+
 public class newOrderPanel extends JPanel {
 	
 	private JButton goBack;
@@ -32,13 +39,16 @@ public class newOrderPanel extends JPanel {
 	private JTextField tableNumInput;
 	private incomingOrderListener mainListensForOrder;
 	private goBackListener mainListensForGoBack;
-	private List<JLabel> noticed; // i = dish, i+1 = amount.
-	private List<order_item> finalOrdersList;
+	private HashMap<Integer, JLabel> DB_Labeled;
+	private Vector<order_item> finalOrders; 
+	private Vector<dishItem> dishes;
 	
-	public newOrderPanel(String[] dishes, int dishes_amount, user_obj user ) {
-		
-		noticed = new Vector<JLabel>();
-		finalOrdersList = new Vector<order_item>();
+	public newOrderPanel(Vector<dishItem> dishes, int dishes_amount, user_obj user ) {
+
+		DB_Labeled = new HashMap<Integer, JLabel>();
+		finalOrders = new Vector<order_item>();
+		this.dishes = dishes;
+		if(this.dishes == null) this.dishes = new Vector<dishItem>();
 		JPanel scrollable = new JPanel();
 		JScrollPane scroller = new JScrollPane(scrollable);
 		
@@ -46,10 +56,10 @@ public class newOrderPanel extends JPanel {
 		scrollable.setPreferredSize(new Dimension(500,500));
 
 		
-		for (String string : dishes) {
-			scrollable.add(addOrderOption(string));
+		for (int i = 0; i < dishes.size(); i++) {
+			scrollable.add( addOrderOption(dishes.get(i).getItemName(), i) );
 		}
-		
+			
 		this.setLayout(new BorderLayout());
 		scrollable.setAutoscrolls(true);
 		
@@ -85,18 +95,20 @@ public class newOrderPanel extends JPanel {
 				if ((tableNumInput.getText().compareTo("") != 0)) {
 					String temp = tableNumInput.getText();
 					if(temp.matches("[0-9]+")) {
-						
-						int i = 0;
-						while (i < noticed.size() ) {
-							if(Integer.valueOf(noticed.get(i+1).getText()) > 0) {
-								finalOrdersList.add(new order_item(noticed.get(i).getText(), Integer.valueOf(noticed.get(i+1).getText())));
-							}
-							i += 2;
-						}
-						if (finalOrdersList.size() > 0) {
-							if (mainListensForOrder != null) {
-								incomingOrderEvent temp_event = new incomingOrderEvent(newOrderPanel.this, finalOrdersList, Integer.valueOf(temp));
-								mainListensForOrder.incomingOrderEvent(temp_event); 
+						Set mapStart = DB_Labeled.entrySet(); // binds the map into sets 
+						Iterator iterator = mapStart.iterator(); // allows iteration
+						while(iterator.hasNext()) {
+							Map.Entry mapSet = (Map.Entry)iterator.next();
+							JLabel dummy = (JLabel) mapSet.getValue();
+							if(Integer.valueOf(dummy.getText()) > 0) {
+								finalOrders.add(new order_item(dishes.get((int) mapSet.getKey()).getItemName(),// dish name
+										Integer.valueOf(dummy.getText()), // amount
+										dishes.get((int) mapSet.getKey())) // dishItem itself
+										);
+								if (mainListensForOrder != null) {
+									incomingOrderEvent temp_event = new incomingOrderEvent(newOrderPanel.this, finalOrders, Integer.valueOf(temp));
+									mainListensForOrder.incomingOrderEvent(temp_event); 
+								}
 							}
 						}
 					}
@@ -121,7 +133,7 @@ public class newOrderPanel extends JPanel {
 		return temp;
 	} 
 	
-	private JPanel addOrderOption (String dish) {
+	private JPanel addOrderOption (String dish, int indexOfDish) {
 		
 		JPanel temp = new JPanel();
 		temp.setLayout(new FlowLayout());
@@ -154,31 +166,32 @@ public class newOrderPanel extends JPanel {
 		temp.add(dishP);
 		temp.add(dishAM);
 		temp.add(dishN);
-		
-		noticed.add(intoNoticed);
-		noticed.add(dishAM);
-		
+		DB_Labeled.put(indexOfDish, dishAM);
+
 		return temp;
 	}
 	
-	public void displayInvalidAmount (String[] problems) {
+	public void displayInvalidAmount (String canBeOrdered) {
 		
-		String display = "not enough ingridiants!\n";
-		for (String string : problems) {
-			display += string + "\n"; 
-			 
-		}
+		String display = "Order Refused\n"+canBeOrdered+"\nWill be accepted\n";
+		if(canBeOrdered.equalsIgnoreCase("Whole Order Refused")) display = canBeOrdered;
+		finalOrders.clear();
 		JOptionPane.showMessageDialog(newOrderPanel.this, display, "can't execute the order", JOptionPane.CLOSED_OPTION);
 	}
 	
 	public void displayOrderSucess () {	
 		JOptionPane.showMessageDialog(newOrderPanel.this, "Order has been made :)", "Order Sucess", JOptionPane.CLOSED_OPTION);
 		SwingUtilities.updateComponentTreeUI(this);
-		for (int i = 1; i < noticed.size(); i+=2) {
-			noticed.get(i).setText("0");
+		Set mapStart = DB_Labeled.entrySet(); // binds the map into sets 
+		Iterator iterator = mapStart.iterator(); // allows iteration
+		while(iterator.hasNext()) {
+			Map.Entry mapSet = (Map.Entry)iterator.next();
+			JLabel dummy = (JLabel) mapSet.getValue();
+			dummy.setText("0");
 		}
 		tableNumInput.setText("");
-		finalOrdersList.clear();
+		finalOrders.clear();
+
 	}
 	
 	public void setOrderListener (incomingOrderListener io) {
