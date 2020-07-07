@@ -65,7 +65,14 @@ public class OrderModule {
 	
 	public String incomingOrder (incomingOrderEvent IncomingOrder) {
 		
+		ReverseUpdates.clear();
+		Approved.clear();
 		ChangeableString canOrderOnlyThose = new ChangeableString("");
+		inventoryItem temp = (inventoryItem) CurrentInventory.get(1);
+		dishItem minus = (dishItem) CurrentDishes.get(0);
+		System.out.println(temp.getDBName()+" : "+temp.getCurrentStock());
+		System.out.println(minus.getDishIngredientss().get(1).getItemName()+" : "+minus.getDishIngredientss().get(1).getUsageInDish());
+		if (CurrentInventory.isEmpty()) return "0 inventory";
 		if (isOrderAllowed(IncomingOrder, canOrderOnlyThose)) {
 			// write to CurrentInventory to inventory file.
 			return "";
@@ -87,7 +94,7 @@ public class OrderModule {
 				dishFailed = false;
 				ings.clear();
 				ings = dish.getDb_link_to_dish().getDishIngredientss();
-				// O( [all the ingredients inside the order] * 2[inventory size])
+				// O( 2[all the ingredients inside the order] * [inventory size])
 				for (int j = 0; j < dish.getAmount(); j++) { // for each dish of the same type in the order_item
 					for (inventoryItem inv : ings) { // for any ingredient in a dish
 						dishFailed = cantReduceInventory(inv, inv.getUsageInDish(), true); // any problem with ingredient
@@ -127,7 +134,6 @@ public class OrderModule {
 	
 	private boolean cantReduceInventory (inventoryItem ing, int amount, boolean reduceInventory) {
 		try {
-			//ReverseUpdates.put(i, temp.getCurrentStock());
 			for (int i = 0; i < CurrentInventory.size(); i++) {
 				inventoryItem temp = (inventoryItem) CurrentInventory.get(i);
 				if ( ing.getID() == temp.getID() ) {
@@ -135,14 +141,16 @@ public class OrderModule {
 						if(reduceInventory) {
 							ReverseUpdates.putIfAbsent(i, temp.getCurrentStock());
 							temp.setCurrentStock(temp.getCurrentStock() - amount);
+							return false;
 						}
-						return false;
+						else;
 					}
+					else return true;
 				}
 			}
-			return true;		
+			return false;		
 		} catch (Exception e) {
-			return false;
+			return true;
 		}
 	}
 	
@@ -180,6 +188,7 @@ public class OrderModule {
 	private String whatCanBeRequested() {
 		
 		try {
+			if(Approved.isEmpty()) return "Whole Order Refused";
 			String Error = "";
 			Set mapStart = Approved.entrySet(); // binds the map into sets 
 			Iterator iterator = mapStart.iterator(); // allows iteration
