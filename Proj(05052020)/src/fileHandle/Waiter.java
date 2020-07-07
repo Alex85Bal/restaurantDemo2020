@@ -13,6 +13,12 @@ public class Waiter extends Order {
 	
 	public Waiter() {}
 	
+
+	public Waiter (String time,boolean fileLock) {
+		super.setCurrentTime(time);
+		super.setFileLocked(fileLock);
+	}
+	
 	public Waiter(String buildFromFile) {
 		super();
 		this.dishList = new Vector<dishItem>();
@@ -114,7 +120,7 @@ public dataBaseItem regress() {
 @Override
 public Vector<dataBaseItem> rebuild(dataBaseItemTest z) {
 	fileRebuilder = new Vector<dataBaseItem>();
-	for(int i=0;i<z.getVectorSize();i++) 
+	for(int i=1;i<z.getVectorSize();i++) 
 		fileRebuilder.add(new Waiter(z.getReleaseToDB().get(i).asText()));
 
 	return fileRebuilder;

@@ -12,6 +12,12 @@ public class Kitchen extends Order {
 
 	public Kitchen() {}
 	
+
+	public Kitchen (String time,boolean fileLock) {
+		super.setCurrentTime(time);
+		super.setFileLocked(fileLock);
+	}
+	
 	public Kitchen(String buildFromFile) {
 		super();
 		this.orderList = new Vector<Order>();

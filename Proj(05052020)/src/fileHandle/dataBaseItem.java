@@ -1,6 +1,8 @@
 package fileHandle;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 
 public abstract class dataBaseItem implements Serializable {
@@ -11,6 +13,19 @@ public abstract class dataBaseItem implements Serializable {
 	private int ID = -1;
 	private String Name = "nope"; 
 	private int inBranch = -1;
+	private String currentTime;
+	private boolean isFileLocked  = false;
+	
+	
+	public String getCurrentTime() {
+		return currentTime;
+	}
+
+	public void setCurrentTime(String currentTime) {
+		this.currentTime = currentTime;
+	}
+
+	
 	
 	public dataBaseItem(String DBname,int item_ID, String item_name, int branchID) {
 		this.DBName = DBname;
@@ -19,9 +34,17 @@ public abstract class dataBaseItem implements Serializable {
 		this.inBranch = branchID;
 	}
 	
+	public boolean getFileLockageStatus() {
+		return isFileLocked;
+	}
+
+	public void setFileLocked(boolean isFileLocked) {
+		this.isFileLocked = isFileLocked;
+	}
+
 	public dataBaseItem() {
 	}
-	
+
 	public int getID() {
 		return ID;
 	}
@@ -66,5 +89,6 @@ public abstract class dataBaseItem implements Serializable {
 	public abstract String asText ();
 	
 	public abstract Vector<dataBaseItem> rebuild (dataBaseItemTest z);
+
 	
 }
