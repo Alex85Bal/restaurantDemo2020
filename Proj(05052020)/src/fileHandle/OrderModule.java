@@ -65,14 +65,14 @@ public class OrderModule {
 	
 	public String incomingOrder (incomingOrderEvent IncomingOrder) {
 		
+		
+		ChangeableString canOrderOnlyThose = new ChangeableString("");
+		//displayInventory();
 		ReverseUpdates.clear();
 		Approved.clear();
-		ChangeableString canOrderOnlyThose = new ChangeableString("");
-		inventoryItem temp = (inventoryItem) CurrentInventory.get(1);
-		dishItem minus = (dishItem) CurrentDishes.get(0);
-		System.out.println(temp.getDBName()+" : "+temp.getCurrentStock());
-		System.out.println(minus.getDishIngredientss().get(1).getItemName()+" : "+minus.getDishIngredientss().get(1).getUsageInDish());
-		if (CurrentInventory.isEmpty()) return "0 inventory";
+		if (CurrentInventory.isEmpty()) {
+			return "0 inventory";
+		}
 		if (isOrderAllowed(IncomingOrder, canOrderOnlyThose)) {
 			// write to CurrentInventory to inventory file.
 			return "";
@@ -93,7 +93,7 @@ public class OrderModule {
 			for (order_item dish : IncomingOrder.getOrders()) { // for each dish == order_item
 				dishFailed = false;
 				ings.clear();
-				ings = dish.getDb_link_to_dish().getDishIngredientss();
+				ings = (Vector<inventoryItem>) dish.getDb_link_to_dish().getDishIngredientss().clone();
 				// O( 2[all the ingredients inside the order] * [inventory size])
 				for (int j = 0; j < dish.getAmount(); j++) { // for each dish of the same type in the order_item
 					for (inventoryItem inv : ings) { // for any ingredient in a dish
@@ -202,7 +202,8 @@ public class OrderModule {
 			return "Error_OrdMod";
 		}
 	}
-	
+
+/*
 public static void main(String[] args) throws IOException, Exception  {
 		
 		OrderModule tes = new OrderModule();
@@ -224,4 +225,5 @@ public static void main(String[] args) throws IOException, Exception  {
 		System.out.println("\n");
 		//tes.displayInventory();
 	}
+*/
 }

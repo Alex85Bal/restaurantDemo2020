@@ -25,7 +25,7 @@ public class NewOrderControl extends Observable implements Observer {
 		data = new OrderModule();
 		data.loadDishes();
 		data.loadInventory();
-		servableDishes = data.getDishesh();
+		servableDishes = (Vector<dishItem>) data.getDishesh().clone();
 		if (servableDishes == null) servableDishes = new Vector<dishItem>(); // anti crash
 		if (orders != null) {
 			orders.addObserver(this);
