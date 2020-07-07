@@ -19,7 +19,12 @@ public class inventoryItem extends dataBaseItem {
 		super.setDBName("inventory");
 		
 	}	
-	
+
+	public inventoryItem(String time,boolean fileLock) {
+			super.setCurrentTime(time);
+			super.setFileLocked(fileLock);
+		}
+		
 	public inventoryItem(String name,int id,int branch,int usage) {
 		super.setItemName(name);
 		super.setID(id);
@@ -121,7 +126,7 @@ public class inventoryItem extends dataBaseItem {
 	@Override
 	public Vector<dataBaseItem> rebuild(dataBaseItemTest z) {
 		fileRebuilder = new Vector<dataBaseItem>();
-		for(int i=0;i<z.getVectorSize();i++) 
+		for(int i=1;i<z.getVectorSize();i++) 
 			fileRebuilder.add(new inventoryItem(z.getReleaseToDB().get(i).asText()));
 	
 		return fileRebuilder;

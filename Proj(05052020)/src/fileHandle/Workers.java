@@ -12,12 +12,23 @@ import java.util.Vector;
  */
 public class Workers extends dataBaseItem {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9L;
 	private ArrayList<Integer> auth;
 	private String pass;
 	private String Type;
 	private Vector<dataBaseItem> fileRebuilder;
 	
 	
+	public Workers() {}
+	
+
+	public Workers (String time,boolean fileLock) {
+		super.setCurrentTime(time);
+		super.setFileLocked(fileLock);
+	}
 	
 	public Workers(String buildFromString) {
 		super();
@@ -101,7 +112,7 @@ public class Workers extends dataBaseItem {
 	@Override
 	public Vector<dataBaseItem> rebuild(dataBaseItemTest z) {
 		fileRebuilder = new Vector<dataBaseItem>();
-		for(int i=0;i<z.getVectorSize();i++) 
+		for(int i=1;i<z.getVectorSize();i++) 
 			fileRebuilder.add(new Workers(z.getReleaseToDB().get(i).asText()));
 		return fileRebuilder;
 	}
