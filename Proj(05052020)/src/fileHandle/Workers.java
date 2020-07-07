@@ -19,11 +19,7 @@ public class Workers extends dataBaseItem {
 	
 	
 
-	public Workers() {
-		super();
-		super.setDBName("Workers");
-		
-	}	
+	public Workers() {}	
 	
 	
 	public Workers(String buildFromString) {
@@ -32,7 +28,7 @@ public class Workers extends dataBaseItem {
 		this.auth= new ArrayList<Integer>();
 		int i=0;
 			try {
-		super.setDBName(tokens[i++]);
+		super.setDBtype(tokens[i++]);
 		super.setItemName(tokens[i++]);
 		super.setID(Integer.parseInt(tokens[i++]));
 		super.setInBranch(Integer.parseInt(tokens[i++]));
@@ -43,9 +39,10 @@ public class Workers extends dataBaseItem {
 		} catch (Exception String­Index­Out­Of­Bounds­Exception) {}
 			}
 	
+	//public setValuesInWorkers(String buildFromString)
 	
-	public Workers(String DBName,int ID,String Name, int branchID, ArrayList<Integer> auth,String pass,String Type) {
-		super(DBName, ID, Name,branchID);
+	public Workers(String DBName,int id,String Name, int branch, ArrayList<Integer> auth,String pass,String Type) {
+		super(DBName, id, Name, branch);
 		this.auth = auth;
 		this.pass=	pass;
 		this.Type=Type;
@@ -81,11 +78,10 @@ public class Workers extends dataBaseItem {
 		Type = type;
 	}
 
-
 	
-	@Override
+	
 	public String asText() {
-		String temp=super.getDBname();
+		String temp=this.getDBname();
 		temp += ("#") + super.getItemName();
 		temp += ("#") + super.getID();
 		temp += ("#") + super.getInBranch();
@@ -110,8 +106,10 @@ public class Workers extends dataBaseItem {
 		fileRebuilder = new Vector<dataBaseItem>();
 		for(int i=0;i<z.getVectorSize();i++) 
 			fileRebuilder.add(new Workers(z.getReleaseToDB().get(i).asText()));
-	
 		return fileRebuilder;
 	}
 }
+
+
+
 
