@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Vector;
 
 import fileHandle.Workers;
+import fileHandle.dataBaseItem;
 import fileHandle.dataBaseItemTest;
 import fileHandle.dishItem;
 import fileHandle.formatMyDateDaddy;
@@ -15,6 +16,13 @@ public class dataMine {
 	
 	private formatMyDateDaddy popo = new formatMyDateDaddy();
 	
+	
+	public void timeStampFileCreaton() throws IOException {
+		dataBaseItemTest db = new dataBaseItemTest();
+		
+		db.addItem(new Workers(popo.getCurrentTime(),popo.getFileLockage()));
+		db.writeToFile("C:\\projects", "filesTimeStamp@1.txt", false);
+	}
 	// ***** Worker file creaton *****
 	public void workerMineData() throws IOException, Exception {
 		dataBaseItemTest dbWorker = new dataBaseItemTest();
