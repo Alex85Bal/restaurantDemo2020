@@ -19,11 +19,10 @@ import fileHandle.dataBaseItemTest;
 
 
 class LoginTest {
-	
-	  @BeforeClass		
-	    public static void m1() {							
-	       		
-	    }		
+	@BeforeClass		
+	public static void m1() {							
+		
+	}		
 	  
 	@Before
 	public void d() {
