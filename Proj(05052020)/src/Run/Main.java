@@ -21,6 +21,7 @@ public class Main {
 		p.workerMineData();
 		p.inventoryItemsMineData();
 		p.dishItemMineData();
+		p.timeStampFileCreaton();
 		
 		
 		// new controller 1;

@@ -47,33 +47,6 @@ import java.util.Vector;
 		System.out.println("DBName,ID,itemName,Branch");
 	}
 	
-	public void writeOneObjectToFile(String path, String fileName, boolean keepOldData) throws IOException{
-		FileOutputStream fos = null;
-		boolean please = true;
-		try {
-			  String fullPath = path+"\\"+fileName;
-			  if (getFile(fullPath) == null) throw insufficient_Access_To_FIle;
-			  fos= new FileOutputStream(fullPath);
-			  
-			 while (please) {
-					 try {
-						 oos = new ObjectOutputStream(fos);
-						 oos.writeObject(this.getReleaseToDB().get(0));
-						 oos.reset();
-						 please = false;
-	                    } catch (NotSerializableException e) {
-	                        e.printStackTrace();
-	                    }
-			 }
-				
-		}  catch (IOException e1) {
-		e1.printStackTrace();
-				} catch (Exception e2) {
-			e2.printStackTrace();
-		} finally {
-					if (fos!=null) { fos.close(); }
-	}
-	}
 	
 	public void writeToFile(String path, String fileName, boolean keepOldData) throws IOException {
 		FileOutputStream fos = null;
@@ -140,7 +113,7 @@ import java.util.Vector;
 		}
 	}
 
-	protected File getFile(String fullPath) {
+	public File getFile(String fullPath) {
 		try {
 			
 			source = new File (fullPath);
@@ -175,7 +148,10 @@ import java.util.Vector;
 	public void changeAndRewrite(dataBaseItemTest home,String time,boolean status) throws IOException, Exception {
 		home.changeLastAccessTime(home, time);
 		home.changeFileStatus(home, status);
-		home.writeOneObjectToFile("C:\\projects", "filesTimeStamp@1.txt", false);
+		home.writeToFile("C:\\projects", "filesTimeStamp@1.txt", false);
+	}
+
+	public void readStatusOfFile(dataBaseItemTest home) throws IOException, Exception {
 		home.readOneObjectFromFile("C:\\projects", "filesTimeStamp@1.txt");
 	}
 	
