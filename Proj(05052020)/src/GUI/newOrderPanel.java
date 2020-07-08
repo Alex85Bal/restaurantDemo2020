@@ -162,10 +162,16 @@ public class newOrderPanel extends JPanel {
 	
 	public void displayInvalidAmount (String canBeOrdered) {
 		
-		String display = "Order Refused\n"+canBeOrdered+"\nWill be accepted\n";
-		if(canBeOrdered.equalsIgnoreCase("Whole Order Refused")) display = canBeOrdered;
-		//finalOrders.clear();
-		//composeFinalOrder();
+		String display = "";
+		canBeOrdered = canBeOrdered.toLowerCase();
+		if (canBeOrdered.contentEquals("file locked")) display = "File is Locked";
+		else
+			if (canBeOrdered.contentEquals("something wen wrong")) display = "something went wrong";
+			else
+				if (canBeOrdered.contentEquals("whole order refused")) display = "whole order refused";
+				else
+					display = "Order Refused\n"+canBeOrdered+"\nWill be accepted\n";
+
 		JOptionPane.showMessageDialog(newOrderPanel.this, display, "can't execute the order", JOptionPane.CLOSED_OPTION);
 		//System.out.println("displayInvalidAmount "+dishes.get(0).getDishIngredientss().isEmpty()+"**********************************************************");
 	}
@@ -210,5 +216,4 @@ public class newOrderPanel extends JPanel {
 			}
 		}
 	}
-	
 }
