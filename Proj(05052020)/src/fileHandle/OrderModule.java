@@ -4,6 +4,9 @@ import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -12,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
+import java.util.concurrent.TimeUnit;
 
 import javax.management.RuntimeErrorException;
 import javax.swing.JPanel;
@@ -34,13 +38,16 @@ public class OrderModule {
 	private dataBaseItemTest Stream;
 	private String errorMsg;
 	private DateTimeFormatter dtf;
-	private LocalDateTime now;
+	private LocalDateTime readTime;
+	private LocalDateTime fileLastWriteTime;
+	
 	
 	public OrderModule() {
 		
-		dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
-		now = LocalDateTime.now();  
-		System.out.println(dtf.format(now));  
+		dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		readTime = LocalDateTime.now();
+		
+		//System.out.println(dtf.format(readTime));  
 		
 		Stream = new dataBaseItemTest();
 		CurrentInventory = new Vector<dataBaseItem>();
@@ -53,59 +60,103 @@ public class OrderModule {
 	public boolean loadInventory() {
 		
 		try {
-
+			
 			Stream.readFromFile("C:\\projects", "inventory@1.txt");
 			CurrentInventory = Stream.whatFileToAccess("inventoryItem", Stream);
-
+			readTime = LocalDateTime.now();
 			return true;
-			
 		} catch (Exception e) {
 			return false;
 		}	
 	}
 	
-	public boolean loadDishes() {
-		
-		try {
-			
+	public boolean loadDishes() {		
+		try {			
 			Stream.readFromFile("C:\\projects", "Dishes@1.txt");
 			CurrentDishes = Stream.whatFileToAccess("dishItem", Stream);
-			return true;
-			
+			return true;	
 		} catch (Exception e) {
 			return false;
 		}
 	}
 	
 	private boolean loadUpdatedInventory () {
-		try {
-			
+		try {		
 			Stream.readFromFile("C:\\projects", "inventory@1.txt");
 			UpdatedInventory = Stream.whatFileToAccess("inventoryItem", Stream);
-			return true;
-			
+			readTime = LocalDateTime.now();
+			return true;		
 		} catch (Exception e) {
 			return false;
 		}
-		
 	}
 	
 	public String incomingOrder (incomingOrderEvent IncomingOrder) {
 		
-		ChangeableString canOrderOnlyThose = new ChangeableString("");
-		//displayInventory();
-		reverseInvChanges.clear();
-		Approved.clear();
-		if (CurrentInventory.isEmpty()) {
-			return "0 inventory";
+		try {		
+			ChangeableString canOrderOnlyThose = new ChangeableString("");
+			//displayInventory();
+			reverseInvChanges.clear();
+			Approved.clear();
+			if (CurrentInventory.isEmpty()) {
+				return "0 inventory";
+			}
+			if (isOrderAllowed(IncomingOrder, canOrderOnlyThose)) { // true == order be made based on local inventory
+				
+				if (hasMyInventoryExpired()) { // true == inventory is out-dated
+					
+					if(canWriteToFile(2)) { // keep probing the File for k seconds for "clear to write" status 
+						Stream.changeFileStatus(Stream, true); // NOW file locked to write.
+						loadUpdatedInventory();
+						
+						if(fileVsInventoryCheck()) { // true == order can be made under new inventory
+							this.CurrentInventory = (Vector<dataBaseItem>) this.UpdatedInventory.clone(); // update Current
+							Stream.writeToFile("C:\\projects", "inventory@1.txt", false); // release Current to FILE
+							Stream.changeFileStatus(Stream, false); // NOW file open to write.
+							readTime = LocalDateTime.now();
+							Stream.changeLastAccessTime(Stream, readTime.toString());
+							return ""; // return positive answer to controller
+						}
+						else { // order CAN'T be made under new inventory,BUT we need a new "what can be ordered" string.
+							this.CurrentInventory = (Vector<dataBaseItem>) this.UpdatedInventory.clone(); // update CurrentInentory
+							Stream.changeFileStatus(Stream, false); // NOW file open to write.
+							isOrderAllowed(IncomingOrder, canOrderOnlyThose); // we only need the "what can be ordered"
+							return canOrderOnlyThose.getIt();
+						}
+					}
+					else return "File is Locked";
+				}
+				else { // true == inventory is NOT out-dated
+					if(canWriteToFile(2)) { // keep probing the File for k seconds for "clear to write" status 
+						Stream.changeFileStatus(Stream, true); // NOW file locked to write.
+						Stream.writeToFile("C:\\projects", "inventory@1.txt", false); // release Current to FILE
+						Stream.changeFileStatus(Stream, false); // NOW file open to write.
+						return "";
+					} else return "File is Locked";	
+				}
+			}
+			// order CAN'T be made current inventory
+			return canOrderOnlyThose.getIt();
+			
+		} catch (Exception e) {
+			return "Something went Wrong";
 		}
-		if (isOrderAllowed(IncomingOrder, canOrderOnlyThose)) {
-			// write to CurrentInventory to inventory file.
-			loadUpdatedInventory();
-			fileVsInventoryCheck();
-			return "";
+	}
+	
+	private boolean canWriteToFile(int timeInSeconds) {
+		try {
+			Stream.readStatusOfFile(Stream); // FILE STATUS : LOCKED/OPENED
+			int wait = 2;
+			while (Stream.currentFileStatus(Stream)) { // false means NOT LOCKED
+				if(wait == 0) return false;
+				TimeUnit.SECONDS.sleep(1);
+				Stream.readStatusOfFile(Stream);
+				wait--;
+			}
+			return true;
+		} catch (Exception e) {
+			return false;
 		}
-		else return canOrderOnlyThose.getIt();
 	}
 	
 	private boolean isOrderAllowed (incomingOrderEvent IncomingOrder, ChangeableString output) {
@@ -231,11 +282,24 @@ public class OrderModule {
 		}
 	}
 	
-	public void hasMyInventoryExpired () {
-		// date <-- first line of inventoryfile
-		// if date > myDate --> update(UpdatedInventory) + return true + writeToFile(lockFile)
-		// only a partial solution:
-		// else return false
+	public boolean hasMyInventoryExpired () {
+		try {
+			Stream.readOneObjectFromFile("C:\\projects", "inventory@1.txt");
+			fileLastWriteTime = stringToDateTime(Stream.lastAccessTimeToFile(Stream));
+			readTime = stringToDateTime(readTime.toString());
+			
+			System.out.println("Last Write To File time "+fileLastWriteTime.toString());
+			System.out.println("My Read Time "+readTime.toString());
+			// if date > myDate --> update(UpdatedInventory) + return true + writeToFile(lockFile)
+			if (readTime.isAfter(fileLastWriteTime)) {
+				return false;
+			}
+			return true;
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return true;
+		}
 	}
 	
 	public boolean fileVsInventoryCheck() {
@@ -247,21 +311,15 @@ public class OrderModule {
 				Map.Entry mapSet = (Map.Entry)iterator.next();
 				inventoryItem myItem = (inventoryItem) CurrentInventory.get((int) mapSet.getKey());
 				inventoryItem updatedItem = (inventoryItem) UpdatedInventory.get((int) mapSet.getKey());
-				//CurrentInventory.set((int) mapSet.getKey(), temp);
-				//System.out.println(myItem.getItemName()+" : INDEX --> "+(int) mapSet.getKey());
-				//System.out.println(updatedItem.getItemName()+" : INDES --> "+(int) mapSet.getKey());
 				int delta = Math.abs( (int)mapSet.getValue() - myItem.getCurrentStock());
-				System.out.println("value Before local order "+(int)mapSet.getValue());
-				System.out.println("currently in stock "+updatedItem.getCurrentStock());
 				if( delta <= updatedItem.getCurrentStock() ) {
-
+					
 					reverseUpdate.put((int) mapSet.getKey(), updatedItem.getCurrentStock());
 					int newStock = updatedItem.getCurrentStock() - delta;
 					updatedItem.setCurrentStock(newStock);
 					UpdatedInventory.set((int) mapSet.getKey(), updatedItem);
 				}
 				else {
-					
 					unfuckInventory(reverseUpdate, UpdatedInventory);
 					return false;
 				}
@@ -273,7 +331,32 @@ public class OrderModule {
 		}
 	}
 	
-public static void main(String[] args) throws IOException, Exception  {
+	private LocalDateTime stringToDateTime(String wouldBeDate) {
+		LocalDateTime toReturn;
+		DateTimeFormatter dtf;
+		
+		int j = 0;
+		String date[] = {"","","","","",""};
+		
+		for (int i = 0; i < wouldBeDate.length(); i++) {
+			if (j == date.length) break;
+			if(wouldBeDate.charAt(i) > '/' && wouldBeDate.charAt(i) < ':' ) {			
+				date[j] += wouldBeDate.charAt(i);
+				}
+			else j++;
+		}
+		dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		toReturn = LocalDateTime.of(Integer.valueOf(date[0]),
+				Integer.valueOf(date[1]),
+				Integer.valueOf(date[2]),
+				Integer.valueOf(date[3]),
+				Integer.valueOf(date[4]),
+				Integer.valueOf(date[5]));		
+		return toReturn;
+
+	}
+/*	
+	public static void main(String[] args) throws IOException, Exception  {
 		
 		OrderModule tes = new OrderModule();
 		tes.loadDishes();
@@ -297,10 +380,7 @@ public static void main(String[] args) throws IOException, Exception  {
 		tes.reverseInvChanges.put(1,18);
 			
 		tes.fileVsInventoryCheck();
+		tes.hasMyInventoryExpired();
+	}
+*/
 }
-
-}
-
-
-
-

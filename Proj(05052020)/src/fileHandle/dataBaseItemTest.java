@@ -176,6 +176,9 @@ import java.util.Vector;
 		home.changeLastAccessTime(home, time);
 		home.changeFileStatus(home, status);
 		home.writeOneObjectToFile("C:\\projects", "filesTimeStamp@1.txt", false);
+	}
+	
+	public void readStatusOfFile(dataBaseItemTest home) throws IOException, Exception {
 		home.readOneObjectFromFile("C:\\projects", "filesTimeStamp@1.txt");
 	}
 	
@@ -194,6 +197,7 @@ import java.util.Vector;
 	public void changeLastAccessTime(dataBaseItemTest home,String time) {
 		home.getReleaseToDB().get(0).setCurrentTime(time);
 	}
+
 	
     ////////////////---------------Methods for Time Stamps and File Usage Stamp---------------////////////////
 	
@@ -279,7 +283,8 @@ import java.util.Vector;
 	    } finally {
 	        if (ois != null)   { ois.close(); } }
 		return false;
-	}	
+	}
+	
 	
 	/*
 	@SuppressWarnings("unchecked")

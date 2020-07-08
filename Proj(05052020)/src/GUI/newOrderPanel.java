@@ -162,7 +162,11 @@ public class newOrderPanel extends JPanel {
 	
 	public void displayInvalidAmount (String canBeOrdered) {
 		
-		String display = "Order Refused\n"+canBeOrdered+"\nWill be accepted\n";
+		String display = "";
+		canBeOrdered.toLowerCase();
+		if (canBeOrdered.contentEquals("file is locked")) display = "File is Locked";
+		if (canBeOrdered.contentEquals("something went wrong")) display = "something went wrong";
+		// = "Order Refused\n"+canBeOrdered+"\nWill be accepted\n";
 		if(canBeOrdered.equalsIgnoreCase("Whole Order Refused")) display = canBeOrdered;
 		//finalOrders.clear();
 		//composeFinalOrder();
@@ -210,5 +214,4 @@ public class newOrderPanel extends JPanel {
 			}
 		}
 	}
-	
 }
