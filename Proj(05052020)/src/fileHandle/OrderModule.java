@@ -95,7 +95,7 @@ public class OrderModule {
 		
 		try {		
 			ChangeableString canOrderOnlyThose = new ChangeableString("");
-			displayInventory();
+			//displayInventory();
 			reverseInvChanges.clear();
 			Approved.clear();
 			if (CurrentInventory.isEmpty()) {
@@ -251,7 +251,7 @@ public class OrderModule {
 		}
 	}
 	
-	private void displayInventory () {
+	public void displayInventory () {
 		try {
 			System.out.println("Dispalying the current Inventory:");
 			for (dataBaseItem dbi : CurrentInventory) {
@@ -302,7 +302,7 @@ public class OrderModule {
 		}
 	}
 	
-	public boolean fileVsInventoryCheck() {
+	private boolean fileVsInventoryCheck() {
 		try {
 			//if(UpdatedInventory.isEmpty()) return false;
 			Set mapStart = reverseInvChanges.entrySet(); // binds the map into sets 
