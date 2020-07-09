@@ -1,32 +1,26 @@
 package fileHandle;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.NotSerializableException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
 
-import Factory.dataBaseItemFactory;
+import Factory.mainFactory;
 
  public class dataBaseItemTest implements Serializable {
 
 	
 	protected Vector<dataBaseItem> releaseToDB = new Vector<dataBaseItem>();
 	protected Exception insufficient_Access_To_FIle = new Exception();
-	//private dataBaseItemFactory factory = new dataBaseItemFactory();
+	private mainFactory factory = new mainFactory();
 	private File source = null;
 	protected OutputStream file = null;
 	protected OutputStream buffer;
@@ -183,24 +177,23 @@ import Factory.dataBaseItemFactory;
 		switch(DBName) {
 		
 		case "Worker" :
-		//Workers tempWO = factory.createW().createEmptyWCtor();
-		Workers tempWO = new Workers();
+		Workers tempWO = factory.createW().createEmptyWCtor();
 		fatty=tempWO.rebuild(dbVec);
 		break;
 		
 		case "inventoryItem" :
-	//	inventoryItem tempI = factory.createI().createEmtpyICtor();
-		//fatty=tempI.rebuild(dbVec);
+		inventoryItem tempI = factory.createI().createEmtpyICtor();
+		fatty=tempI.rebuild(dbVec);
 		break;	
 		
 		case "dishItem" :
-	//	dishItem tempD = factory.createD().createEmtpyDCtor();
-	//	fatty=tempD.rebuild(dbVec);
+		dishItem tempD = factory.createD().createEmtpyDCtor();
+		fatty=tempD.rebuild(dbVec);
 		break;
 		
 		case "Order" :
-		//Order tempO = factory.createO().createEmtpyOCtor();
-		//fatty=tempO.rebuild(dbVec);
+		Order tempO = factory.createO().createEmtpyOCtor();
+		fatty=tempO.rebuild(dbVec);
 		break;
 		
 		case "Kitchen" :

@@ -93,27 +93,27 @@ public class newOrderPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (count > 0) {
-					
-					if ((tableNumInput.getText().compareTo("") != 0)) {
-						String temp = tableNumInput.getText();
-						if(temp.matches("[0-9]+")) {
-							composeFinalOrder();
+				
+				if ((tableNumInput.getText().compareTo("") != 0)) {
+					String temp = tableNumInput.getText();
+					if(temp.matches("[0-9]+")) {
+						composeFinalOrder();
+						if (count > 0) {
 							if (mainListensForOrder != null) {
 								incomingOrderEvent temp_event = new incomingOrderEvent(newOrderPanel.this, finalOrders, Integer.valueOf(temp));
-								mainListensForOrder.incomingOrderEvent(temp_event); 
-							}
+								mainListensForOrder.incomingOrderEvent(temp_event);
+							} else;	
 						}
 						else {
-							JOptionPane.showMessageDialog(newOrderPanel.this, "table id should be only numbers", "Order failure", JOptionPane.CLOSED_OPTION);
+							JOptionPane.showMessageDialog(newOrderPanel.this, "your order is empty", "Order failure", JOptionPane.CLOSED_OPTION);
 						}
 					}
 					else {
-						JOptionPane.showMessageDialog(newOrderPanel.this, "forgot to input table number ?", "Order failure", JOptionPane.CLOSED_OPTION);
-					}		
+						JOptionPane.showMessageDialog(newOrderPanel.this, "table id should be only numbers", "Order failure", JOptionPane.CLOSED_OPTION);
+					}
 				}
 				else {
-					JOptionPane.showMessageDialog(newOrderPanel.this, "your order is empty", "Order failure", JOptionPane.CLOSED_OPTION);
+					JOptionPane.showMessageDialog(newOrderPanel.this, "forgot to input table number ?", "Order failure", JOptionPane.CLOSED_OPTION);	
 				}
 			}
 		}); // end of the sendOrder button pressed event
