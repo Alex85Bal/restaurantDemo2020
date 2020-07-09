@@ -19,11 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import Factory.dataBaseItemFactory;
+
  public class dataBaseItemTest implements Serializable {
 
 	
 	protected Vector<dataBaseItem> releaseToDB = new Vector<dataBaseItem>();
 	protected Exception insufficient_Access_To_FIle = new Exception();
+	private dataBaseItemFactory factory = new dataBaseItemFactory();
 	private File source = null;
 	protected OutputStream file = null;
 	protected OutputStream buffer;
@@ -99,7 +102,7 @@ import java.util.Vector;
 	}
 	
 	*/
-	protected Vector<dataBaseItem> getReleaseToDB() {
+	public Vector<dataBaseItem> getReleaseToDB() {
 		return releaseToDB;
 	}
 	
@@ -180,22 +183,23 @@ import java.util.Vector;
 		switch(DBName) {
 		
 		case "Worker" :
+		//Workers tempWO = factory.createW().createEmptyWCtor();
 		Workers tempWO = new Workers();
 		fatty=tempWO.rebuild(dbVec);
 		break;
 		
 		case "inventoryItem" :
-		inventoryItem tempI = new inventoryItem();
+		inventoryItem tempI = factory.createI().createEmtpyICtor();
 		fatty=tempI.rebuild(dbVec);
 		break;	
 		
 		case "dishItem" :
-		dishItem tempD = new dishItem();
+		dishItem tempD = factory.createD().createEmtpyDCtor();
 		fatty=tempD.rebuild(dbVec);
 		break;
 		
 		case "Order" :
-		Order tempO = new Order();
+		Order tempO = factory.createO().createEmtpyOCtor();
 		fatty=tempO.rebuild(dbVec);
 		break;
 		
