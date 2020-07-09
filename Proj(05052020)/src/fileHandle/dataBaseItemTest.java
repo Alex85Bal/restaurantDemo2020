@@ -26,7 +26,7 @@ import Factory.dataBaseItemFactory;
 	
 	protected Vector<dataBaseItem> releaseToDB = new Vector<dataBaseItem>();
 	protected Exception insufficient_Access_To_FIle = new Exception();
-	private dataBaseItemFactory factory = new dataBaseItemFactory();
+	//private dataBaseItemFactory factory = new dataBaseItemFactory();
 	private File source = null;
 	protected OutputStream file = null;
 	protected OutputStream buffer;
@@ -189,18 +189,18 @@ import Factory.dataBaseItemFactory;
 		break;
 		
 		case "inventoryItem" :
-		inventoryItem tempI = factory.createI().createEmtpyICtor();
-		fatty=tempI.rebuild(dbVec);
+	//	inventoryItem tempI = factory.createI().createEmtpyICtor();
+		//fatty=tempI.rebuild(dbVec);
 		break;	
 		
 		case "dishItem" :
-		dishItem tempD = factory.createD().createEmtpyDCtor();
-		fatty=tempD.rebuild(dbVec);
+	//	dishItem tempD = factory.createD().createEmtpyDCtor();
+	//	fatty=tempD.rebuild(dbVec);
 		break;
 		
 		case "Order" :
-		Order tempO = factory.createO().createEmtpyOCtor();
-		fatty=tempO.rebuild(dbVec);
+		//Order tempO = factory.createO().createEmtpyOCtor();
+		//fatty=tempO.rebuild(dbVec);
 		break;
 		
 		case "Kitchen" :
