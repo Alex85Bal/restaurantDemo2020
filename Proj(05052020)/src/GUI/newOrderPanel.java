@@ -42,6 +42,7 @@ public class newOrderPanel extends JPanel {
 	private HashMap<Integer, JLabel> DB_Labeled;
 	private Vector<order_item> finalOrders; 
 	private Vector<dishItem> dishes;
+	private int count = 0;
 	
 	public newOrderPanel(Vector<dishItem> dishes, int dishes_amount, user_obj user ) {
 
@@ -92,13 +93,19 @@ public class newOrderPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				if ((tableNumInput.getText().compareTo("") != 0)) {
 					String temp = tableNumInput.getText();
 					if(temp.matches("[0-9]+")) {
 						composeFinalOrder();
-						if (mainListensForOrder != null) {
-							incomingOrderEvent temp_event = new incomingOrderEvent(newOrderPanel.this, finalOrders, Integer.valueOf(temp));
-							mainListensForOrder.incomingOrderEvent(temp_event); 
+						if (count > 0) {
+							if (mainListensForOrder != null) {
+								incomingOrderEvent temp_event = new incomingOrderEvent(newOrderPanel.this, finalOrders, Integer.valueOf(temp));
+								mainListensForOrder.incomingOrderEvent(temp_event);
+							} else;	
+						}
+						else {
+							JOptionPane.showMessageDialog(newOrderPanel.this, "your order is empty", "Order failure", JOptionPane.CLOSED_OPTION);
 						}
 					}
 					else {
@@ -106,7 +113,7 @@ public class newOrderPanel extends JPanel {
 					}
 				}
 				else {
-					JOptionPane.showMessageDialog(newOrderPanel.this, "forgot to input table number ?", "Order failure", JOptionPane.CLOSED_OPTION);
+					JOptionPane.showMessageDialog(newOrderPanel.this, "forgot to input table number ?", "Order failure", JOptionPane.CLOSED_OPTION);	
 				}
 			}
 		}); // end of the sendOrder button pressed event
@@ -202,17 +209,18 @@ public class newOrderPanel extends JPanel {
 	
 	private void composeFinalOrder() {
 		finalOrders.clear();
+		count = 0;
 		Set mapStart = DB_Labeled.entrySet(); // binds the map into sets 
 		Iterator iterator = mapStart.iterator(); // allows iteration
 		while(iterator.hasNext()) {
 			Map.Entry mapSet = (Map.Entry)iterator.next();
 			JLabel dummy = (JLabel) mapSet.getValue();
 			if(Integer.valueOf(dummy.getText()) > 0) {
+				count++;
 				finalOrders.add(new order_item(dishes.get((int) mapSet.getKey()).getItemName(),// dish name
 						Integer.valueOf(dummy.getText()), // amount
 						dishes.get((int) mapSet.getKey())) // dishItem itself
 						);
-				
 			}
 		}
 	}
