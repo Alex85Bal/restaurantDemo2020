@@ -3,8 +3,11 @@
  */
 package fileHandle;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
+
+import GUI.user_obj;
 
 /**
  * @author Yosi
@@ -20,6 +23,8 @@ public class Workers extends dataBaseItem {
 	private String pass;
 	private String Type;
 	private Vector<dataBaseItem> fileRebuilder;
+	private Vector<dataBaseItem> source = new Vector<dataBaseItem>();
+	protected Exception insufficient_Access_To_FIle = new Exception();
 	
 	
 	public Workers() {}
@@ -108,7 +113,30 @@ public class Workers extends dataBaseItem {
 		return temp;
 	}
 
+	
+	public Workers compareAccountInfo(user_obj temp, Vector<dataBaseItem> source) throws IOException, Exception {
+		for (int i=0;i<source.size();i++) {
+			if (source.get(i).getClass() == new Workers().getClass()) {
+				Workers workerInfoCheck = (Workers) source.get(i);
+			if (workerInfoCheck.getID() == temp.getPersonal_id()) {
+				if (workerInfoCheck.getPass().equals(temp.getPass())) return workerInfoCheck;
+	}
+			}
+			}
+		return null;
+	}
+	
+	public Vector<dataBaseItem> readAccountInfo() throws IOException, Exception {
+		dataBaseItemTest dbWorkers = new dataBaseItemTest();
+		String fullPath = "C:\\projects\\Workers@1.txt";
+		if (dbWorkers.getFile(fullPath) == null) throw insufficient_Access_To_FIle;
+		
+		dbWorkers.readFromFile("C:\\projects", "Workers@1.txt");
+		source=dbWorkers.whatFileToAccess("Worker", dbWorkers);
+		return source;
+	}
 
+	
 	@Override
 	public Vector<dataBaseItem> rebuild(dataBaseItemTest z) {
 		fileRebuilder = new Vector<dataBaseItem>();
