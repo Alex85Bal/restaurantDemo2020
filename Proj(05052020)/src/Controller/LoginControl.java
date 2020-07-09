@@ -14,7 +14,6 @@ public class LoginControl implements Observer {
 
 	private dataBaseItemTest dbWorkers = new dataBaseItemTest();
 	private Vector<dataBaseItem> source = new Vector<dataBaseItem>();
-	private Vector<Workers> heyo = new Vector<Workers>();
 	protected Exception insufficient_Access_To_FIle = new Exception();
 	private String fullPath = "C:\\projects\\Workers@1.txt";
 	private main_cardFrame login;

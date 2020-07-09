@@ -95,7 +95,7 @@ public class OrderModule {
 		
 		try {		
 			ChangeableString canOrderOnlyThose = new ChangeableString("");
-			//displayInventory();
+			displayInventory();
 			reverseInvChanges.clear();
 			Approved.clear();
 			if (CurrentInventory.isEmpty()) {

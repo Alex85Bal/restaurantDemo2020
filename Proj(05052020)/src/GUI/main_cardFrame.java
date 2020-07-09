@@ -89,7 +89,7 @@ public class main_cardFrame extends Observable {
 	
 	public boolean displayErrorOnLogin () {
 		
-		String display = "{Personal ID} should be from the type of char\n";
+		String display = "{Personal ID} should be from the type of int\n";
 		display += "{Password} should be from the type of integer";
 		JOptionPane.showMessageDialog(this.UDIP_panel, display, "can't login", JOptionPane.CLOSED_OPTION);
 		return true;
